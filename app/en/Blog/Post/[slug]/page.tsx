@@ -110,7 +110,7 @@ const Post: NextPage = () => {
 
             <Services />
             <Footer />
-        </>
+        </div>
     );
 };
 

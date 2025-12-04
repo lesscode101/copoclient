@@ -47,7 +47,7 @@ const Blog: NextPage = () => {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 };
 
