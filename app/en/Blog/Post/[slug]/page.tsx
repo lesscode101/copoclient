@@ -8,7 +8,8 @@ import Services from "@/app/components/english/Lists/Services";
 import Footer from "@/app/components/english/Footer/Footer";
 import parse from "html-react-parser";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from '@/app/CartContext';
 
 interface Post {
     id: number;
@@ -43,9 +44,15 @@ const Post: NextPage = () => {
         return <p className="container">Loading post...</p>;
     }
 
-    return (
-        <>
-            <HeaderSlim />
+   
+  const cart = useContext(CartContext);
+
+  if (!cart) return null; // safety check
+
+  return (
+    <div className="app">
+      <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+
 
             <div className="breadcrumb">
                 <ul className="container">
