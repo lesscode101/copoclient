@@ -10,13 +10,16 @@ import { useContext } from "react";
 import { CartContext } from "@/app/CartContext";
 
 
-const cart = useContext(CartContext);
+const Blog: NextPage = () => {
 
-if (!cart) return null; // safety check
 
-return (
-  <div className="app">
-    <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+  const cart = useContext(CartContext);
+
+  if (!cart) return null; // safety check
+
+  return (
+    <div className="app">
+      <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
 
 
       <main className="app">
