@@ -1,0 +1,378 @@
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+}
+
+/* Hero Background Image */
+.hero .img-hero {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero .img-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Gradient Overlay */
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, #000, #646c8e25);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Hero Content Container */
+.hero .container {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+}
+
+/* Content Block */
+.hero .item {
+    width: 100%;
+    padding: 1rem 0;
+    padding-bottom: 10vh;
+    gap: 1rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero .item.en {
+    padding-bottom: 20vh !important;
+}
+
+/* =============================
+   HERO TITLES
+============================= */
+
+.hero .item .home-title {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 54px;
+    line-height: 70px;
+    font-weight: 300;
+    color: #fff;
+    text-align: end;
+    letter-spacing: -1px;
+}
+
+/* Arabic version */
+.hero .item .home-title.ar {
+    direction: rtl;
+    text-align: start;
+    gap: 0.5rem;
+}
+
+.hero .item .home-title.ar span {
+    font-size: 36px !important;
+    font-weight: 300;
+    line-height: 48px !important;
+}
+
+/* French version */
+.hero .item .home-title.fr {
+    direction: ltr;
+    gap: 0.4rem;
+}
+
+.hero .item .home-title.fr span {
+    font-size: 26px !important;
+    line-height: 44px !important;
+    font-weight: 300;
+}
+
+/* Generic title span */
+.hero .item .home-title span {
+    font-size: 36px !important;
+    font-weight: 300;
+    color: #fff !important;
+}
+
+/* =============================
+   HERO BUTTONS
+============================= */
+
+.hero .items .buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.6rem;
+    gap: 1rem;
+    position: relative;
+}
+
+.hero .item .btn {
+    padding: 1.2rem 2.4rem;
+    background-color: #000;
+    border: none;
+    font-size: 14px;
+    font-weight: 300;
+    color: #fff;
+    cursor: pointer;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 12px #0004;
+    transition: 1.3s ease;
+    opacity: 0.98;
+}
+
+/* Primary Shop Button */
+.hero .item .btn-shop {
+    background: linear-gradient(to right, rgb(195,21,21), rgb(223,45,45), rgb(173,12,12), rgba(106,19,19,0.85)) !important;
+    box-shadow: 0px 4px 12px rgba(9, 0, 0, 0.757) !important;
+}
+
+.hero .item .btn-shop:hover {
+    background: linear-gradient(to right, #7a0404, #b81111, #f21c1c, #f21c1c) !important;
+    color: #fff;
+}
+
+/* Ghost Button */
+.hero .item .btn-ghost {
+    background: linear-gradient(to right, #fff, #fff, #b8c6cdee, #fafafa, #fff);
+    color: #000;
+    box-shadow: 0px 0px 12px rgba(9, 0, 0, 0.757) !important;
+    font-weight: 500;
+}
+
+.hero .item .btn-ghost:hover {
+    background: linear-gradient(to right, #d7e6eb44, #fff, #fff, #fff, #fff);
+    color: #000;
+}
+
+
+
+
+
+/* =========================================================
+   ABOUT SECTION
+========================================================= */
+
+.about-section {
+    padding: 3rem 0;
+    position: relative;
+}
+
+.about-section .image {
+    width: 100%;
+    max-width: 1640px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.about-section .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.about-section .content {
+    background-color: #f1f1f1;
+    margin-top: -2rem;
+    padding: 4rem 1rem;
+}
+
+.about-section .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #111;
+    font-weight: 200;
+    height: 300px;
+    overflow: hidden;
+}
+
+.about-section .meta .title {
+    font-size: 34px;
+    line-height: 40px;
+    color: #222;
+    font-weight: 300;
+    height: 60px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.about-section .meta .desc {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0.5rem 0;
+}
+
+.about-section .meta .desc p {
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 300;
+    color: #444;
+    text-align: center;
+}
+@media (max-width:800px) {
+    .about-section .meta {
+        height: 450px;
+    }
+    
+    .about-section .meta .desc p {
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 32px;
+        color: #555;
+        text-align: center;
+    }
+}
+
+.about-section .meta .actions {
+   padding: 2rem 0rem;
+}
+
+.about-section .meta .actions .link {
+    width: 100% !important;
+    font-size: 16.5px;
+    font-weight: 300;
+    padding: 0.8rem 2.3rem;
+    background-color: #111;
+    color: #fafafa;
+    box-shadow: 0 5px 16px #aaa2;
+}
+
+.about-section .meta .actions .link:hover {
+    background-color: #000;
+    box-shadow: 0 5px 16px #0002;
+    color: #fff;
+}
+
+/* Swiper Controls */
+.about-section .swiper-button-prev,
+.about-section .swiper-button-next {
+    position: absolute;
+    top: 60%;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(203, 200, 200, 0.1);
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.about-section .swiper-button-prev {
+    left: 1rem;
+    transform: rotate(180deg);
+}
+
+.about-section .swiper-button-next {
+    right: 1rem;
+}
+
+.about-section .swiper-button-prev:hover,
+.about-section .swiper-button-next:hover {
+    background: rgba(7, 7, 7, 0.9);
+    color: #fff;
+}
+
+.about-section .swiper-pagination {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 100;
+}
+
+.swiper-pagination-bullet {
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    opacity: 0.2;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .hero .items .buttons {
+        justify-content: center;
+    }
+
+    .hero .item .home-title {
+        font-size: 36px !important;
+        line-height: 50px !important;
+        text-align: center;
+    }
+
+    .hero .item .home-title.fr {
+        font-size: 27px !important;
+        line-height: 40px !important;
+        padding: 1rem;
+        text-transform: capitalize;
+    }
+
+    .hero .item .home-title.fr span {
+        font-size: 28px !important;
+        line-height: 36px !important;
+    }
+
+    .hero .item .home-title.ar {
+        font-weight: 500 !important;
+        text-align: center !important;
+    }
+
+    .hero .item .home-title.ar span {
+        font-size: 18px;
+        font-weight: 300 !important;
+        text-align: center !important;
+    }
+
+    .hero .item .btn,
+    .hero .item .btn.fr,
+    .hero .item .btn.en {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        letter-spacing: 0;
+        padding: 14px 20px !important;
+        min-width: 160px;
+    }
+
+    .hero .item .btn.fr {
+        font-size: 13px;
+        padding: 14px 10px !important;
+
+    }
+}

@@ -1,0 +1,145 @@
+
+
+
+.our-services{
+    background: linear-gradient(180deg, #fefefe, #ffffff);
+    text-align: center;
+    padding: 20px 0px;
+    font-family: "Poppins", sans-serif;
+    color: #333;
+}
+.our-services .title {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: #111;
+    text-align: start;
+    width: 100%;
+    text-align: center;
+}
+.our-services.arab .title {
+    font-family: 'Cairo',sans-serif;
+    font-size: 44px;
+    line-height: 44px;
+    font-weight: 500;
+}
+.our-services .desc {
+    padding: 0.5rem 0;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.our-services .desc p{
+    font-family: 'Open Sans',sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #444;
+    text-align: start;
+    width: 100%;
+    text-align: center;
+}
+.our-services.arab .desc p{
+    font-family: 'Open Sans',sans-serif;
+    font-size: 17px;
+    color: #333;
+    
+}
+
+
+
+.our-services .features-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 35px;
+    padding-top: 20px;
+}
+.our-services .features-items 
+.feature-box {
+    padding: 2rem 15px;
+}
+.our-services .features-items 
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 1s;
+}
+.our-services .features-items 
+.feature-icon img {
+    width: 44px;
+    height: 44px;
+    color: #111;
+    opacity: 0.9;
+}
+.our-services .features-items 
+.feature-box:nth-child(1) .feature-icon img {
+    opacity: 0.7;
+}
+.our-services .features-items 
+.feature-icon:hover img {
+    transform: scale(1.06);
+    opacity: 1;
+}
+.our-services .feature-box .subtitle {
+    font-size: 15.5px !important;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #111;
+}
+.our-services.arab .feature-box .subtitle {
+    font-size: 17px !important;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #222;
+}
+.our-services .feature-box p {
+    font-size: 12px !important;
+    line-height: 1.5;
+    color: #222;
+}
+.our-services.arab .feature-box p {
+    font-size: 14px !important;
+    line-height: 1.7;
+    color: #222;
+}
+
+/* Mobile Improvements */
+@media (max-width: 600px) {
+    .our-services .items  h2 {
+        font-size: 22px;
+    }
+
+    .about-luxury .intro {
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+"use client";
+
+import type { NextPage } from "next";
+import Link from "next/link";
+import HeaderSlim from "@/app/components/english/Header/HeaderSlim";
+import Services from "@/app/components/english/Lists/Services";
+import Footer from "@/app/components/english/Footer/Footer";
+import BlogList from "@/app/components/english/BlogList/BlogList";
+
+
+const Blog: NextPage = () => {
+
+
+  return (
+    <>
+      <HeaderSlim />
+
+      <main className="app">
+        
+        <div className="breadcrumb">
+          <ul className="container">
+            <li>
+              <Link className="link" href="/">
+                Home
+              </Link>
+            </li>
+
+            <li>
+              <span>Blog</span>
+            </li>
+          </ul>
+        </div>
+
+        <BlogList />
+
+
+
+
+        <Services />
+      </main>
+
+      <Footer />
+    </>
+  );
+};
+
+export default Blog;

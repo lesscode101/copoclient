@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill='#fff' viewBox="0 0 250 250" width="64" height="64" >
+  <defs>
+    <!-- Clip area that excludes the white rectangle space -->
+    <clipPath id="cut">
+      <path d="
+        M0 0h250v250H0z
+        M40 65h210v40H40z
+      " fill="none" clip-rule="evenodd"></path>
+    </clipPath>
+  </defs>
+
+  <!-- Apply horizontal scaling (75% width) and center it -->
+  <g clip-path="url(#cut)" transform="translate(31.25, 0) scale(0.75, 1)">
+    <rect width="40" height="250"></rect>
+    <rect width="250" height="40"></rect>
+    <rect width="200" height="40" y="105"></rect>
+    <rect width="100" height="40" y="210"></rect>
+    <rect width="250" height="40" y="65" transform="rotate(-45 250 105)"></rect>
+    <rect width="100" height="100" x="200" y="200" transform="rotate(45 250 250)"></rect>
+  </g>
+</svg>

@@ -1,0 +1,138 @@
+"use client"; // <-- Add this at the very top
+
+import './itemList.css';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+interface Product {
+    id: number;
+    slug: string;
+    name: string;
+    image: string;
+    color: string;
+    size: number;
+    price: number;
+    oldPrice?: number;
+}
+
+interface ProductListProps {
+    title: string;
+}
+const ProductList: React.FC<ProductListProps> = ({ title }) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    const [products, setProducts] = useState([]);
+    const [link, setLink] = useState('premium')
+    const [newTitle, setNewTitle] = useState('')
+
+    const fetchProducts = async () => {
+        let url = `${API_URL}/api/products/last`
+
+        if (title == 'New Arrivals') {
+            setLink('/en/Shop/Arrivals')
+            setNewTitle('New Arrivals')
+        } else {
+            setLink('/en/Shop/Premium')
+            setNewTitle('Premium')
+            url = `${API_URL}/api/products/premium`
+        }
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setProducts(data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+
+    return (
+
+
+        <section className="item-list" >
+            <div className="container">
+
+                <div className="heading">
+                    <div className="line">
+                        <h2 className="title">
+                            {title}
+                        </h2>
+                        <Link href={link} className="link">
+                            Go To Shop
+                        </Link>
+                    </div>
+
+                </div>
+
+                <div className="content">
+
+                    <Swiper slidesPerView={4} modules={[Pagination, Scrollbar, A11y]}
+                        spaceBetween={0}
+                        pagination={{ clickable: true }}
+                        breakpoints={{
+                            1224: { slidesPerView: 4 }, // large
+                            844: { slidesPerView: 3 },  // medium
+                            494: { slidesPerView: 2 },  // medium
+                            0: { slidesPerView: 1 }     // small
+                        }}
+                    >
+
+
+                        {products.map((product: Product) => (
+
+                            <SwiperSlide>
+                                <div key={product.id} className="product-card">
+                                    <div className="image">
+                                        <img src={`${API_URL + product.image}`} alt={product.name} />
+                                    </div>
+
+                                    <div className="meta">
+
+                                        <h1 className="product-name ">
+                                            <Link href={"./../product/" + product.slug} >
+                                                {product.name}
+                                            </Link>
+                                        </h1>
+
+                                        <div className="subtitle">{product.color} • {product.size} L</div>
+                                        <p className="price">{product.price} <small>Dhs</small> </p>
+                                        <p className="old">{product.price} <small>Dhs</small> </p>
+
+                                    </div>
+
+                                    <div className="icons">
+                                        <button className="icon icon-wish" aria-label='add to your wish list'>
+                                            <i className="icon-dark-heart"></i>
+                                        </button>
+                                        <button className="icon icon-cart" aria-label='add to your shopping cart'>
+                                            <i className="icon-dark-shopping"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+
+                        ))}
+
+                    </Swiper>
+
+
+                </div>
+
+            </div>
+        </section>
+
+
+
+    )
+}
+
+export default ProductList
