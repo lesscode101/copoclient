@@ -50,7 +50,7 @@ export default function BlogList() {
 
                 </div>
 
-                {posts &&
+                {posts.length>0 &&
                     <div className="blog-items">
 
 

@@ -19,7 +19,7 @@ const Blog: NextPage = () => {
 
   return (
     <div className="app">
-      <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+      <HeaderSlim />
 
 
       <main className="app">

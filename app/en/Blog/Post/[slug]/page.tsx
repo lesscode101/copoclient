@@ -51,7 +51,7 @@ const Post: NextPage = () => {
 
   return (
     <div className="app">
-      <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+      <HeaderSlim  />
 
 
             <div className="breadcrumb">
@@ -62,7 +62,7 @@ const Post: NextPage = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link className="link" href="/en/Blog">
+                        <Link className="link" href="/en/blog">
                             Blog
                         </Link>
                     </li>
@@ -88,14 +88,7 @@ const Post: NextPage = () => {
                             <h1 className="post-title">{post.title}</h1>
                             <p className="post-date">
                                 <span>Post on </span>
-                                {new Date(post.created_at).toLocaleString("en-US", {
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    hour12: false,
-                                })}
+                                {post.created_at}  
                             </p>
                         </div>
 

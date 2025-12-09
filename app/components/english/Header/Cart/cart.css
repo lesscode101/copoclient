@@ -33,6 +33,9 @@
     right: 0rem;
 }
 
+.rightbox .loading{
+    display: none !important;
+}
 /* Close Button */
 .rightbox .close-icon {
     position: absolute;
@@ -209,9 +212,20 @@
 
 .item-price {
     min-width: 100px;
-    display: flex;
-    justify-content: flex-start;
+    font-size: 20px;
+    position: relative;
 }
+.item-price .subprice {
+    position: absolute;
+    width: 100%;
+    height: 15px;
+    text-align: center;
+    top: -1rem;
+    left: -1px;
+    font-size: 13px;
+    color: #333;
+}
+
 
 .item-delete {
     min-width: 80px;

@@ -1,5 +1,5 @@
 .shop-page {
-    background: linear-gradient(to bottom, #fff, #fafafa, #fefefe);
+    background: linear-gradient(to bottom, #fff, #fffafa, #fff);
     width: 100%;
     overflow: hidden;
     padding-bottom: 14rem;
@@ -26,18 +26,13 @@
 }
 
 
-.shop-page {
-    width: 100%;
-    background-color: #fff;
-}
-
-
 
 .shop-page .row {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
+    margin-top: 0rem;
 
 }
 
@@ -120,35 +115,17 @@
 }
 
 
-.shop-page .filter-side .content .link:hover {
+.shop-page .filter-side .content .link-btn:hover {
     transition: all 1s;
-    color: rgb(54, 36, 36);
+    color: rgb(247, 74, 74) ;
 }
 
-.shop-page .filter-side .content .link.active {
+.shop-page .filter-side .content .link-btn.active {
     transition: all 1s;
-    font-weight: 500;
-    color: rgb(54, 36, 36);
-}
-
-
-.shop-page .filter-side .content .more-btn {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    line-height: 12px;
     font-weight: 400;
-    padding: 0.54rem 1rem;
-    color: #fff;
-    background-color: #000;
-    width: fit-content;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 0.2rem;
-    cursor: pointer;
-    transition: all 1s;
-
+    color: #d70d17 ;
 }
+
 
 .shop-page .filter-side .box .range-input {
     width: 100px;
@@ -173,13 +150,16 @@
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    padding: 1.2rem 0;
+    padding: 0.8rem 0;
+    padding-bottom: 1rem;
 }
 
 .shop-page .heading .line {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 36px;
+    overflow: hidden;
 }
 
 .shop-page .heading .title {
@@ -200,11 +180,11 @@
     gap: 1rem;
 }
 
-.shop-page .choices .filter-box {
+.shop-page .choices .choice {
     width: fit-content;
     height: fit-content;
     padding: 9px 18px;
-    padding-right: 26px;
+    padding-right: 0px;
     border-radius: 20px;
     background-color: #fff;
     border: 1px solid #aaa6;
@@ -214,6 +194,13 @@
     position: relative;
     cursor: pointer;
     transition: all 1s;
+}
+
+.shop-page .choices .choice span {
+    font-size: 14px;
+    padding: 0px 6px;
+    padding-right: 14px;
+
 }
 
 .shop-page .choices .filter-box .close {
@@ -233,7 +220,7 @@
     align-items: center;
     grid-template-columns: 450px 1fr;
     height: 58px;
-    margin-bottom: 20px;
+    margin-top: -1.6rem;
     border-bottom: 1px solid #aaa4;
 }
 
@@ -316,15 +303,21 @@
     cursor: pointer;
     transition: all 1s;
 }
-.search-box  .icon {
-    width: 44px;      /* الحد الأدنى الموصى به من WCAG */
-    height: 44px;     /* الحد الأدنى الموصى به */
-    padding: 8px;     /* مسافة إضافية حول الأيقونة */
+
+.search-box .icon {
+    width: 44px;
+    /* الحد الأدنى الموصى به من WCAG */
+    height: 44px;
+    /* الحد الأدنى الموصى به */
+    padding: 8px;
+    /* مسافة إضافية حول الأيقونة */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 8px; /* مسافة بين الزر والعناصر الأخرى */
-  }
+    margin-left: 8px;
+    /* مسافة بين الزر والعناصر الأخرى */
+}
+
 .search-box i {
     width: 20px;
     height: 20px;
@@ -401,8 +394,6 @@
 .shop-page .products-items img {
     transform: scale(0.7) !important;
 }
-
-
 .pagination {
     width: 100%;
     margin-top: 6rem;
@@ -412,6 +403,8 @@
     align-items: center;
     gap: 0.3rem;
     font-family: 'Inter', sans-serif;
+    /* 💡 CLS FIX 1: Reserve vertical space for the component */
+    min-height: 40px; /* Assuming the component height is around 36px plus padding */
 }
 
 .pagination .btns {
@@ -431,24 +424,29 @@
     padding: 4px;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    /* 💡 CLS FIX 2: Align items to their final position immediately */
+    align-items: center; /* Changed from flex-end to center for stable positioning */
     border: none !important;
     cursor: pointer;
-    transform: translateY(10px);
-    transition: all 1s;
+    /* ❌ REMOVED the transform: translateY(10px) to prevent initial shifting */
+    transition: all 0.3s ease-in-out; /* Reduced transition time for smoother response */
 }
 
 .pagination .btn .icon {
-    transform: scale(0.7);
+    /* 💡 CLS FIX 3: Ensure icons have a baseline size immediately */
+    transform: scale(0.7); 
 }
 
 .pagination .btn:hover {
     color: #47566e;
+    /* ✅ Add a subtle hover effect here if desired, but avoid layout shifts */
 }
 
 .pagination .btn.btn-disabled {
     opacity: 0.2;
 }
+
+/* --- Remaining CSS remains largely unchanged --- */
 
 .pagination .info {
     display: flex !important;
@@ -468,15 +466,11 @@
     border-radius: 0px !important;
 }
 
-
-
 .pagination .info .strong.active {
     color: #333;
     font-weight: 300;
     border: none;
-
 }
-
 /*
 Price Range
 */

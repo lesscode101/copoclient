@@ -169,208 +169,205 @@ const ShopContent = () => {
     if (!cart) return null; // safety check
 
     return (
-        <div className="app">
-            <Head>
-                <title>Shop Page | Eravist</title>
-            </Head>
+        <section className="shop-page">
 
-            <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+            <HeaderSlim />
 
-            <div className="breadcrumb" aria-label="Breadcrumb">
+            <div className="breadcrumb">
                 <ul className="container">
-                    <li><Link href="/">Home</Link></li>
-                    <li><span aria-current="page">Shop</span></li>
+                    <li>
+                        <Link className="link" href="/">Home</Link>
+                    </li>
+
+                    <li>
+                        <span>Shop</span>
+                    </li>
                 </ul>
             </div>
-            <section className="shop-page">
 
+            < div className="container" >
+                <div className="row">
 
-                < div className="container" >
-                    <div className="row">
-
-                        {/* Sidebar */}
-                        <aside className="filter-side">
-                            {/* Categories */}
-                            <div className="box">
-                                <div className="head"><h4>Collection</h4></div>
-                                <div className="content">
-                                    {categories.map(c => (
-                                        <button
-                                            key={c.category}
-                                            className={`link-btn ${category === c.category ? "active" : ""}`}
-                                            onClick={() => { setCategory(c.category); setPage(1); }}
-                                            aria-pressed={category === c.category}
-                                        >
-                                            {c.category} <span className="count">({c.count})</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Colors */}
-                            <div className="box">
-                                <div className="head"><h4>Colors</h4></div>
-                                <div className="content">
-                                    {colors.map(c => (
-                                        <button
-                                            key={c.color}
-                                            className={`link-btn ${color === c.color ? "active" : ""}`}
-                                            onClick={() => { setColor(c.color); setPage(1); }}
-                                        >
-                                            {c.color} <span className="count">({c.count})</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Sizes */}
-                            <div className="box">
-                                <div className="head"><h4>Sizes</h4></div>
-                                <div className="content">
-                                    {sizes.map(s => (
-                                        <button
-                                            key={s.sizeName}
-                                            className={`link-btn ${size === s.sizeName ? "active" : ""}`}
-                                            onClick={() => { setSize(s.sizeName); setPage(1); }}
-                                        >
-                                            {s.sizeName} <span className="count">({s.count})</span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Price slider */}
-                            <div className="box">
-                                <div className="head"><h4>Prix</h4></div>
-                                <div className="slider">
-                                    <input type="range" min={minLimit} max={maxLimit} value={min} onChange={handleMinChange} className="thumb thumb-left" aria-label="Price Range Min "/>
-                                    <input type="range" min={minLimit} max={maxLimit} value={max} onChange={handleMaxChange} className="thumb thumb-right" aria-label="Price Range Max"/>
-                                    <div className="slider-track"></div>
-                                    <div className="slider-range"
-                                        style={{
-                                            left: `${(min / maxLimit) * 100}%`,
-                                            width: `${((max - min) / maxLimit) * 100}%`
-                                        }}>
-                                    </div>
-                                </div>
-                                <div className="inputs">
-                                    <span>{min}</span><span className="cur">Dhs</span><strong>-</strong>
-                                    <span>{max}</span><span className="cur">Dhs</span>
-                                </div>
-                            </div>
-                        </aside>
-
-                        {/* Main Page */}
-                        <div className="main-page">
-                            {/* Filters Row */}
-                            <div className="heading">
-                                <div className="line">
-                                    <h1 className="title">Store</h1>
-                                    <div className="choices">
-                                        {category !== "All" && <button className="filter-box" onClick={() => setCategory("All")}>{category} ×</button>}
-                                        {color !== "All" && <button className="filter-box" onClick={() => setColor("All")}>{color} ×</button>}
-                                        {size !== "All" && <button className="filter-box" onClick={() => setSize("All")}>{size} ×</button>}
-                                    </div>
-                                </div>
-
-                                <div className="filter-row">
-                                    <div className="filter-left">
-                                        <span>Discover {sortedProducts.length} items out of the ({totalItems}) available</span>
-                                    </div>
-
-                                    <div className="filter-right">
-                                        <div className="search-content">
-                                            <div className={`search-box ${searchActive ? "active" : ""}`}>
-                                                <input
-                                                    type="text"
-                                                    className="inputi"
-                                                    placeholder="Search..."
-                                                    value={search}
-                                                    onChange={(e) => setSearch(e.target.value)}
-                                                />
-                                                <button className="icon" aria-label="Search.." onClick={() => setSearchActive(!searchActive)}>
-                                                    <i className="icon-dark-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <span className="space">|</span>
-                                        <div className="sort-content">
-                                            <SortByDropdown onSelect={setSortOption} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Products */}
-                            <div className="products-items">
-                                {sortedProducts.map(product => (
-                                    <div key={product.id} className="product-card">
-                                        <Link href={`/product/${product.slug}`}>
-                                            <div className="image">
-                                                <img src={`${API_URL + product.image}`} alt={product.name} loading="lazy" />
-                                            </div>
-                                        </Link>
-
-                                        <div className="meta">
-                                            <h2 className="product-name">
-                                                <Link href={`/product/${product.slug}`}>{product.name}</Link>
-                                            </h2>
-                                            <div className="subtitle">{product.color} • {product.size} L</div>
-                                            <p className="price">{getNewPrice(product.price, product.discount)} <small>Dhs</small></p>
-                                            {product.discount > 0 &&
-                                                <p className="old">{product.price} <small>Dhs</small></p>
-                                            }
-                                        </div>
-
-                                        <div className="icons">
-                                            <button className="icon icon-wish" aria-label="Add to Wishlist" onClick={() => cart.addToWishlist(product.id)}>
-                                                <i className="icon-dark-heart"></i>
-                                            </button>
-                                            <button className="icon icon-cart" aria-label="Add to Cart" onClick={() => cart.addToCartlist(product.id)}>
-                                                <i className="icon-dark-shopping"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                    {/* Sidebar */}
+                    <aside className="filter-side">
+                        {/* Categories */}
+                        <div className="box">
+                            <div className="head"><h4>Collection</h4></div>
+                            <div className="content">
+                                {categories.map(c => (
+                                    <button
+                                        key={c.category}
+                                        className={`link-btn ${category == c.category ? "active" : ""}`}
+                                        onClick={() => { setCategory(c.category); setPage(1); }}
+                                        aria-pressed={category === c.category}
+                                    >
+                                        {c.category} <span className="count">({c.count})</span>
+                                    </button>
                                 ))}
                             </div>
-
-                            {/* Pagination */}
-                            <nav className="pagination">
-                                <span className="btns">
-                                    <button disabled={page <= 1} className={page <= 1 ? "btn btn-disabled" : "btn"} aria-label="Precdent Page" onClick={() => setPage(page - 1)}>
-                                        <div className="icon"><i className="icon-dark-chevron left"></i></div>
-                                    </button>
-                                </span>
-                                <span className="info">
-                                    {page - 1 > 0 &&
-                                        <button className="strong active" onClick={() => setPage(page - 1)}>
-                                            {page - 1}
-                                        </button>
-                                    }
-
-                                    <div className="strong"><strong>{page}</strong></div>
-
-                                    {page < totalPages &&
-                                        <button className="strong active" onClick={() => setPage(page + 1)}>
-                                            {page + 1}
-                                        </button>
-                                    }
-                                </span>
-
-                                <span className="btns">
-                                    <button disabled={page >= totalPages} className={page >= totalPages ? "btn btn-disabled" : "btn"} aria-label="Next Page" onClick={() => setPage(page + 1)}>
-                                        <div className="icon"><i className="icon-dark-chevron right"></i></div>
-                                    </button>
-                                </span>
-                            </nav>
                         </div>
+
+                        {/* Colors */}
+                        <div className="box">
+                            <div className="head"><h4>Colors</h4></div>
+                            <div className="content">
+                                {colors.map(c => (
+                                    <button
+                                        key={c.color}
+                                        className={`link-btn ${color === c.color ? "active" : ""}`}
+                                        onClick={() => { setColor(c.color); setPage(1); }}
+                                    >
+                                        {c.color} <span className="count">({c.count})</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Sizes */}
+                        <div className="box">
+                            <div className="head"><h4>Sizes</h4></div>
+                            <div className="content">
+                                {sizes.map(s => (
+                                    <button
+                                        key={s.sizeName}
+                                        className={`link-btn ${size === s.sizeName ? "active" : ""}`}
+                                        onClick={() => { setSize(s.sizeName); setPage(1); }}
+                                    >
+                                        {s.sizeName} <span className="count">({s.count})</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Price slider */}
+                        <div className="box">
+                            <div className="head"><h4>Prix</h4></div>
+                            <div className="slider">
+                                <input type="range" min={minLimit} max={maxLimit} value={min} onChange={handleMinChange} className="thumb thumb-left" aria-label="Price Range Min " />
+                                <input type="range" min={minLimit} max={maxLimit} value={max} onChange={handleMaxChange} className="thumb thumb-right" aria-label="Price Range Max" />
+                                <div className="slider-track"></div>
+                                <div className="slider-range"
+                                    style={{
+                                        left: `${(min / maxLimit) * 100}%`,
+                                        width: `${((max - min) / maxLimit) * 100}%`
+                                    }}>
+                                </div>
+                            </div>
+                            <div className="inputs">
+                                <span>{min}</span><span className="cur">Dhs</span><strong>-</strong>
+                                <span>{max}</span><span className="cur">Dhs</span>
+                            </div>
+                        </div>
+                    </aside>
+
+                    {/* Main Page */}
+                    <div className="main-page">
+                        {/* Filters Row */}
+                        <div className="heading">
+                            <div className="line">
+                                <h1 className="title">Store</h1>
+                                <div className="choices">
+                                    {category !== "All" && <button className="choice" onClick={() => setCategory("All")}>{category} <span>×</span></button>}
+                                    {color !== "All" && <button className="choice" onClick={() => setColor("All")}>{color} <span>×</span></button>}
+                                    {size !== "All" && <button className="choice" onClick={() => setSize("All")}>{size} <span>×</span></button>}
+                                </div>
+                            </div>
+
+                            <div className="filter-row">
+                                <div className="filter-left">
+                                    <span>Discover {sortedProducts.length} items out of the ({totalItems}) available</span>
+                                </div>
+
+                                <div className="filter-right">
+                                    <div className="search-content">
+                                        <div className={`search-box ${searchActive ? "active" : ""}`}>
+                                            <input
+                                                type="text"
+                                                className="inputi"
+                                                placeholder="Search..."
+                                                value={search}
+                                                onChange={(e) => setSearch(e.target.value)}
+                                            />
+                                            <button className="icon" aria-label="Search.." onClick={() => setSearchActive(!searchActive)}>
+                                                <i className="icon-dark-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <span className="space">|</span>
+                                    <div className="sort-content">
+                                        <SortByDropdown onSelect={setSortOption} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Products */}
+                        <div className="products-items">
+                            {sortedProducts.map(product => (
+                                <div key={product.id} className="product-box">
+                                    <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
+                                        <div className="image">
+                                            <img src={`${API_URL + product.image}`} alt={product.name} loading="lazy" />
+                                        </div>
+                                    </Link>
+
+                                    <div className="meta">
+                                        <h2 className="product-name">
+                                            <Link href={`/product/${product.slug}`}>{product.name}</Link>
+                                        </h2>
+                                        <div className="subtitle">{product.color} • {product.size} L</div>
+                                        <p className="price">{getNewPrice(product.price, product.discount)} <small>Dhs</small></p>
+                                        {product.discount > 0 &&
+                                            <p className="old">{product.price} <small>Dhs</small></p>
+                                        }
+                                    </div>
+
+                                    <div className="icons">
+                                        <button className="icon icon-wish" aria-label="Add to Wishlist" onClick={() => cart.addToWishlist(product.id)}>
+                                            <i className="icon-dark-heart"></i>
+                                        </button>
+                                        <button className="icon icon-cart" aria-label="Add to Cart" onClick={() => cart.addToCartlist(product.id)}>
+                                            <i className="icon-dark-shopping"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Pagination */}
+                        <nav className="pagination">
+                            <span className="btns">
+                                <button disabled={page <= 1} className={page <= 1 ? "btn btn-disabled" : "btn"} aria-label="Precdent Page" onClick={() => setPage(page - 1)}>
+                                    <div className="icon"><i className="icon-dark-chevron left"></i></div>
+                                </button>
+                            </span>
+                            <span className="info">
+                                {page - 1 > 0 &&
+                                    <button className="strong active" onClick={() => setPage(page - 1)}>
+                                        {page - 1}
+                                    </button>
+                                }
+
+                                <div className="strong"><strong>{page}</strong></div>
+
+                                {page < totalPages &&
+                                    <button className="strong active" onClick={() => setPage(page + 1)}>
+                                        {page + 1}
+                                    </button>
+                                }
+                            </span>
+
+                            <span className="btns">
+                                <button disabled={page >= totalPages} className={page >= totalPages ? "btn btn-disabled" : "btn"} aria-label="Next Page" onClick={() => setPage(page + 1)}>
+                                    <div className="icon"><i className="icon-dark-chevron right"></i></div>
+                                </button>
+                            </span>
+                        </nav>
                     </div>
-                </div >
-            </section >
-        </div>
-
-
-    );
+                </div>
+            </div >
+        </section >
+    )
 };
 
 export default ShopContent;

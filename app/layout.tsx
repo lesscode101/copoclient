@@ -1,15 +1,15 @@
-"use client"; // ضعها في الأعلى
+"use client"; 
 
 import { ReactNode } from "react";
-import { CartProvider } from "./CartContext";
+import LayoutContent from "./layoutContent";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <CartProvider>
+        <LayoutContent>
           {children}
-        </CartProvider>
+        </LayoutContent>
       </body>
     </html>
   );

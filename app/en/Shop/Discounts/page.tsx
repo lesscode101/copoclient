@@ -98,7 +98,7 @@ const Discount: NextPage = () => {
 
   return (
     <div className="app">
-      <HeaderSlim countWish={cart.wishlist.length} countCart={cart.cartlist.length} />
+      <HeaderSlim />
 
       <section className="shop-page" id="sale">
         <div className="breadcrumb">
@@ -109,7 +109,7 @@ const Discount: NextPage = () => {
               </Link>
             </li>
             <li>
-              <Link className="link" href="/en/Shop">
+              <Link className="link" href="/en/shop">
                 Shop
               </Link>
             </li>
@@ -144,8 +144,8 @@ const Discount: NextPage = () => {
 
             <div className="products-items products-items-4">
               {products.map((product) => (
-                <div key={product.id} className="product-card">
-                  <Link href={`/product/${product.slug}`}>
+                <div key={product.id} className="product-box">
+                  <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
                     <div className="image">
                       <img src={`${API_URL}${product.image}`} alt="" />
                     </div>
@@ -171,10 +171,10 @@ const Discount: NextPage = () => {
                   </div>
 
                   <div className="icons">
-                    <button className="icon icon-wish" onClick={() => cart.addToWishlist(product.id)}>
+                    <button className="icon icon-wish" aria-label="Add to wishlist" onClick={() => cart.addToWishlist(product.id)}>
                       <i className="icon-dark-heart"></i>
                     </button>
-                    <button className="icon icon-cart" onClick={() => cart.addToCartlist(product.id)}>
+                    <button className="icon icon-cart" aria-label="Add to Cart" onClick={() => cart.addToCartlist(product.id)}>
                       <i className="icon-dark-shopping"></i>
                     </button>
                   </div>
@@ -185,7 +185,7 @@ const Discount: NextPage = () => {
               {/* placeholders to keep grid shape */}
               {Array.from({ length: Math.max(0, 6 - products.length) }).map(
                 (_, i) => (
-                  <div key={i} className="product-card-b"></div>
+                  <div key={i} className="product-box-b"></div>
                 )
               )}
             </div>

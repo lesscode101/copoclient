@@ -2,13 +2,14 @@
 
 import './itemList.css';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { CartContext } from '@/app/CartContext';
 interface Product {
     id: number;
     slug: string;
@@ -53,7 +54,8 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
     useEffect(() => {
         fetchProducts();
     }, []);
-
+    const cart = useContext(CartContext);
+    if (!cart) return null;
 
     return (
 
@@ -90,11 +92,13 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                         {products.map((product: Product) => (
 
                             <SwiperSlide>
-                                <div key={product.id} className="product-card">
-                                    <div className="image">
-                                        <img src={`${API_URL + product.image}`} alt={product.name} />
-                                    </div>
+                                <div key={product.id} className="product-box">
+                                    <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
 
+                                        <div className="image">
+                                            <img src={`${API_URL + product.image}`} alt={product.name} />
+                                        </div>
+                                    </Link>
                                     <div className="meta">
 
                                         <h1 className="product-name ">
@@ -109,11 +113,13 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
 
                                     </div>
 
+
+
                                     <div className="icons">
-                                        <button className="icon icon-wish" aria-label='add to your wish list'>
+                                        <button className="icon icon-wish" aria-label="Add to wishlist" onClick={() => cart.addToWishlist(product.id)}>
                                             <i className="icon-dark-heart"></i>
                                         </button>
-                                        <button className="icon icon-cart" aria-label='add to your shopping cart'>
+                                        <button className="icon icon-cart" aria-label="Add to Cart" onClick={() => cart.addToCartlist(product.id)}>
                                             <i className="icon-dark-shopping"></i>
                                         </button>
                                     </div>

@@ -1,0 +1,101 @@
+.announcement {
+    width: 100%;
+    height: 40px;
+    background:linear-gradient(to right,rgba(35, 39, 42, 0.8),rgb(45, 51, 57),rgba(34, 37, 41, 0.9));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5000;
+    position: relative;
+}
+.announcement.hidden{
+    display: none;
+}
+.announcement .content {
+    width: 90%;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.announcement .msg {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    line-height: 13px;
+    height: 13px;
+    overflow: hidden;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    padding:0px 1rem;
+}
+.announcement .msg {
+    width: 100%;
+    text-align: center;
+    font-size: 12.5px;
+    line-height: 12.5px;
+    font-weight: 200;
+    height: 13px;
+    overflow: hidden;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    padding:0px 1rem;
+}
+
+.announcement .msg.ar {
+   
+    font-size: 15px;
+    line-height: 15px;
+    height: 15px;
+    overflow: hidden;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    padding:0px 1rem;
+}
+
+.announcement .close-ads {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+
+.announcement .close-ads i {
+    transform: scale(0.7) rotate(45deg);
+    opacity: 0.9;
+    transition: all 1s;
+}
+
+.announcement .close-ads:hover i {
+    transform: scale(0.75) rotate(45deg);
+    opacity: 1;
+}
+
+@media (max-width:900px) {
+    .announcement .msg {
+        font-size: 12px;
+        line-height: 12px;
+        height: 12px;
+        letter-spacing: 0px;
+        text-transform: capitalize;
+    
+    }
+}
