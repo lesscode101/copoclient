@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 90000 60000">
+  <rect width="90000" height="60000" fill="#e33238"/>
+  <path
+    fill="none"
+    stroke="#129d5c"
+    stroke-width="2000"
+    d="
+      M45000 12000
+      L56644 45107
+      L27925 24118
+      L62075 24118
+      L33356 45107
+      Z"
+  />
+</svg>

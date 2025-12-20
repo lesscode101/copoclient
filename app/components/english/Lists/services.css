@@ -5,11 +5,12 @@
     background: linear-gradient(180deg, #fefefe, #ffffff);
     text-align: center;
     padding: 20px 0px;
-    font-family: "Poppins", sans-serif;
     color: #333;
+    position: relative;
+    z-index: 100;
+    min-height: 520px;
 }
 .our-services .title {
-    font-family: 'Open Sans',sans-serif;
     font-size: 34px;
     font-weight: 400;
     color: #111;
@@ -17,20 +18,14 @@
     width: 100%;
     text-align: center;
 }
-.our-services.arab .title {
-    font-family: 'Cairo',sans-serif;
-    font-size: 44px;
-    line-height: 44px;
-    font-weight: 500;
-}
+
 .our-services .desc {
     padding: 0.5rem 0;
     width: 100%;
-    max-width: 700px;
+    max-width: 600px;
     margin: 0 auto;
 }
 .our-services .desc p{
-    font-family: 'Open Sans',sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #444;
@@ -38,12 +33,7 @@
     width: 100%;
     text-align: center;
 }
-.our-services.arab .desc p{
-    font-family: 'Open Sans',sans-serif;
-    font-size: 17px;
-    color: #333;
-    
-}
+
 
 
 
@@ -88,26 +78,20 @@
 }
 .our-services .feature-box .subtitle {
     font-size: 15.5px !important;
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 8px;
     color: #111;
-}
-.our-services.arab .feature-box .subtitle {
-    font-size: 17px !important;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #222;
+
 }
 .our-services .feature-box p {
-    font-size: 12px !important;
+    font-size: 13px !important;
     line-height: 1.5;
     color: #222;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
 }
-.our-services.arab .feature-box p {
-    font-size: 14px !important;
-    line-height: 1.7;
-    color: #222;
-}
+
 
 /* Mobile Improvements */
 @media (max-width: 600px) {
@@ -117,6 +101,11 @@
 
     .about-luxury .intro {
         font-size: 14px;
+    }
+    .our-services .feature-box p {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
     }
 }
 

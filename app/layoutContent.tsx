@@ -1,5 +1,3 @@
-import './index.css'
-import './globals.css'
 
 import { ReactNode } from "react";
 import { CartProvider } from "./CartContext";

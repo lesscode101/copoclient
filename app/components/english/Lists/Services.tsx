@@ -1,11 +1,8 @@
-"use client"; // <-- Add this at the very top
+"use client";
 
+import Image from 'next/image';
 import './services.css';
 
-import Link from 'next/link';
-
-
-// TRANSLATIONS
 const texts = {
     en: {
         title: "Our Services",
@@ -22,93 +19,36 @@ const texts = {
 
         c4_title: "Fast Delivery",
         c4_desc: "Standard Delivery. Economy delivery within 1-8 Days",
-    },
-
-    fr: {
-        title: "Nos Services",
-        desc: "Commencez par un design unique et terminez avec des sacs de luxe entre vos mains",
-
-        c1_title: "Certifications Vérifiées",
-        c1_desc: "Testé et certifié pour répondre aux normes de qualité mondiales.",
-
-        c2_title: "Paiement à la Livraison",
-        c2_desc: "Cette option au Maroc permet aux clients de vérifier les articles avant d’acheter.",
-
-        c3_title: "Retours Faciles",
-        c3_desc: "Changement d’avis ? Retournez l’article sous 30 jours pour un échange ou un crédit.",
-
-        c4_title: "Livraison Rapide",
-        c4_desc: "Livraison standard. Livraison économique en 1 à 8 jours.",
-    },
-
-    ar: {
-        title: "خدماتنا",
-        desc: "ابدأ بتصميم مميز وانتهِ بحقيبة فاخرة بين يديك",
-
-        c1_title: "شهادات موثقة",
-        c1_desc: "مختبرة ومعتمدة لتطابق معايير الجودة العالمية.",
-
-        c2_title: "الدفع عند الاستلام",
-        c2_desc: "هذه الخدمة في المغرب تتيح للعميل فحص المنتج قبل الدفع.",
-
-        c3_title: "إرجاع سهل",
-        c3_desc: "غيّرت رأيك؟ يمكنك إرجاع المنتج خلال 30 يومًا للاستبدال أو الرصيد.",
-
-        c4_title: "تسليم سريع",
-        c4_desc: "توصيل قياسي. التوصيل الاقتصادي يتم خلال 1 إلى 8 أيام.",
     }
 };
 
 export default function Services() {
-    const t =  texts.en;
-    const dir = "rtl" ;
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const t = texts.en;
 
     return (
-        <section className="our-services" dir={dir}>
+        <section className="our-services">
             <div className="container">
-
                 <h2 className="title">{t.title}</h2>
-
                 <div className="desc">
                     <p>{t.desc}</p>
                     <br />
                 </div>
 
                 <div className="features-items">
-
-                    <div className="feature-box">
-                        <div className="feature-icon">
-                            <img src={API_URL + '/images/best.png'} alt="" />
+                    {[
+                        { img: '/best.png', title: t.c1_title, desc: t.c1_desc },
+                        { img: '/cash.png', title: t.c2_title, desc: t.c2_desc },
+                        { img: '/return.png', title: t.c3_title, desc: t.c3_desc },
+                        { img: '/delivery.png', title: t.c4_title, desc: t.c4_desc },
+                    ].map((item, i) => (
+                        <div key={i} className="feature-box">
+                            <div className="feature-icon">
+                                <Image width={100} height={100} src={item.img} alt={item.title} />
+                            </div>
+                            <h3 className="subtitle">{item.title}</h3>
+                            <p>{item.desc}</p>
                         </div>
-                        <h3 className='subtitle'>{t.c1_title}</h3>
-                        <p>{t.c1_desc}</p>
-                    </div>
-
-                    <div className="feature-box">
-                        <div className="feature-icon">
-                            <img src={API_URL + '/images/cash.png'} width="60" alt="" />
-                        </div>
-                        <h3 className='subtitle'>{t.c2_title}</h3>
-                        <p>{t.c2_desc}</p>
-                    </div>
-
-                    <div className="feature-box">
-                        <div className="feature-icon">
-                            <img src={API_URL + '/images/return.png'} alt="" />
-                        </div>
-                        <h3 className='subtitle'>{t.c3_title}</h3>
-                        <p>{t.c3_desc}</p>
-                    </div>
-
-                    <div className="feature-box">
-                        <div className="feature-icon">
-                            <img src={API_URL + '/images/delivery.png'} alt="" />
-                        </div>
-                        <h3 className='subtitle'>{t.c4_title}</h3>
-                        <p>{t.c4_desc}</p>
-                    </div>
-
+                    ))}
                 </div>
             </div>
         </section>

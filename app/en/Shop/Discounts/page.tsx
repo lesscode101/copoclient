@@ -1,203 +1,105 @@
-"use client";
-
-import type { NextPage } from "next";
 import "./../shop.css";
-import Link from "next/link";
-import HeaderSlim from "@/app/components/english/Header/HeaderSlim";
-import Services from "@/app/components/english/Lists/Services";
-import Footer from "@/app/components/english/Footer/Footer";
 
-import { useContext, useEffect, useState } from "react";
-import SortByDropdown from "@/app/components/Filter/SortByDropdown";
-import { CartContext } from "@/app/CartContext";
+import ListContent from "../listContent";
 
-interface Product {
-  id: number;
-  slug: string;
-  name: string;
-  image: string;
-  price: number;
-  discount: number;
-  size: string;
-  color: string;
+async function getDiscounts() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    const res = await fetch(
+        `${API_URL}/api/products/discounts`,
+        { cache: "no-cache" }
+    );
+    if (!res.ok) return null;
+    return res.json();
 }
 
-const Discount: NextPage = () => {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export default async function DiscountsPage() {
+    const data = await getDiscounts();
+    const products = Array.isArray(data) ? data : [];
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const [sortOption, setSortOption] = useState<string>("az");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [totalItems, setTotalItems] = useState<number>(0);
+    const base = "https://eravist.com";
 
-  function getNewPrice(price: number, disc: number) {
-    const oldPrice = price;
-    const discount = disc;
+    const title = "Buy New Discounts Backpacks in Morocco | Eravist";
+    const desc =
+        "Discover our premium selection of new arrival backpacks designed for professionals, commuters, and travelers.";
+    const image = `${base}/images/default.webp`;
 
-    if (!oldPrice || !discount || discount === 0) return oldPrice.toFixed(2);
+    const canonical = `${base}/en/shop/arrivals`;
 
-    const newPrice = oldPrice - (oldPrice * discount) / 100;
-    return newPrice.toFixed(2);
-  }
+    const collectionSchema = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "New Discounts",
+        description: desc,
+        url: canonical,
+    };
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/products/discount`);
-      const data: Product[] = await response.json();
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: products.map((p: any, i: number) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${base}/en/product/${p.slug}`,
+        })),
+    };
 
-      setTotalItems(data.length);
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: base },
+            { "@type": "ListItem", position: 2, name: "Shop", item: `${base}/en/shop` },
+            { "@type": "ListItem", position: 3, name: "Discounts", item: canonical },
+        ],
+    };
 
-      // Apply initial sort
-      const sorted = sortProducts(data, sortOption);
-      setProducts(sorted);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return (
+        <>
+            <title>{title}</title>
+            <link rel="canonical" href={canonical} />
+            <meta name="description" content={desc} />
 
-  const sortProducts = (list: Product[], sort: string) => {
-    const sorted = [...list];
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={desc} />
+            <meta property="og:image" content={image} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content={canonical} />
 
-    if (sort === "az") {
-      sorted.sort((a, b) => a.name.localeCompare(b.name));
-    }
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={desc} />
+            <meta name="twitter:image" content={image} />
+            <meta name="twitter:site" content="@EravistOfficial" />
 
-    if (sort === "priceLowHigh") {
-      sorted.sort(
-        (a, b) =>
-          parseFloat(getNewPrice(a.price, a.discount)) -
-          parseFloat(getNewPrice(b.price, b.discount))
-      );
-    }
+            <script
+                id="collection-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(collectionSchema).replace(/</g, '\\u003c'),
+                }}
+            />
 
-    if (sort === "priceHighLow") {
-      sorted.sort(
-        (a, b) =>
-          parseFloat(getNewPrice(b.price, b.discount)) -
-          parseFloat(getNewPrice(a.price, a.discount))
-      );
-    }
+            <script
+                id="schema-itemlist"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c'),
+                }}
+            />
 
-    return sorted;
-  };
+            <script
+                id="schema-breadcrumbs"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c'),
+                }}
+            />
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+            <ListContent products={products} titleName="Discounts" />
 
-  useEffect(() => {
-    setProducts((prev) => sortProducts(prev, sortOption));
-  }, [sortOption]);
 
-  const handleSort = (value: string) => {
-    setSortOption(value);
-  };
-
-  const cart = useContext(CartContext);
-
-  if (!cart) return null; // safety check
-
-  return (
-    <div className="app">
-      <HeaderSlim />
-
-      <section className="shop-page" id="sale">
-        <div className="breadcrumb">
-          <ul className="container">
-            <li>
-              <Link className="link" href="/">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link className="link" href="/en/shop">
-                Shop
-              </Link>
-            </li>
-            <li>
-              <span>Discount</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="container">
-          <div className="main-page">
-            <div className="heading">
-              <div className="line">
-                <h1 className="title">Discount</h1>
-              </div>
-
-              <div className="filter-row">
-                <div className="filter-left">
-                  <span>
-                    Discover {products.length} items among the ({totalItems})
-                    available for sale.
-                  </span>
-                </div>
-
-                <div className="filter-right">
-                  <div className="sort-content">
-                    <SortByDropdown onSelect={handleSort} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="products-items products-items-4">
-              {products.map((product) => (
-                <div key={product.id} className="product-box">
-                  <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
-                    <div className="image">
-                      <img src={`${API_URL}${product.image}`} alt="" />
-                    </div>
-                  </Link>
-
-                  <div className="meta">
-                    <h1 className="product-name">
-                      <Link href={`/product/${product.slug}`}>
-                        {product.name}
-                      </Link>
-                    </h1>
-
-                    <div className="subtitle">
-                      {product.color} • {product.size} L
-                    </div>
-                    <p className="price">
-                      {getNewPrice(product.price, product.discount)}{" "}
-                      <small>Dhs</small>
-                    </p>
-                    <p className="old">
-                      {product.price} <small>Dhs</small>
-                    </p>
-                  </div>
-
-                  <div className="icons">
-                    <button className="icon icon-wish" aria-label="Add to wishlist" onClick={() => cart.addToWishlist(product.id)}>
-                      <i className="icon-dark-heart"></i>
-                    </button>
-                    <button className="icon icon-cart" aria-label="Add to Cart" onClick={() => cart.addToCartlist(product.id)}>
-                      <i className="icon-dark-shopping"></i>
-                    </button>
-                  </div>
-
-                </div>
-              ))}
-
-              {/* placeholders to keep grid shape */}
-              {Array.from({ length: Math.max(0, 6 - products.length) }).map(
-                (_, i) => (
-                  <div key={i} className="product-box-b"></div>
-                )
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Services />
-
-      <Footer />
-    </div>
-  );
-};
-
-export default Discount;
+        </>
+    );
+}

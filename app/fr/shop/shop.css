@@ -1,0 +1,651 @@
+.shop-page {
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: 14rem;
+    background:linear-gradient(to bottom,#fff,#fbfbfb,#fff);
+}
+
+
+.title-section {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #000;
+    text-transform: uppercase;
+}
+
+.title-section small {
+    font-size: 14px;
+    font-weight: 400;
+    color: #777;
+    text-transform: lowercase;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    letter-spacing: 0px;
+}
+
+
+
+.shop-page .row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-top: 0rem;
+
+}
+
+.shop-page .filter-side {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    max-width: 340px;
+    min-height: 160vh;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.75rem 0rem !important;
+    padding-bottom: 4rem;
+    padding-left: 0rem !important;
+    padding-right: 2rem !important;
+    margin: 0;
+    margin-top: -1rem;
+    grid-column: span 1;
+}
+
+.shop-page .filter-side::before {
+    position: absolute;
+    content: '';
+    top: -2rem;
+    left: -50%;
+    z-index: 0;
+    width: 150%;
+    height: 120%;
+    background: linear-gradient(to right, #fefefe, #fefefe, #fefefe);
+    border-right: 1px solid rgba(231, 220, 220, 0.841);
+
+
+}
+
+
+
+.shop-page .filter-side .box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 5;
+}
+
+.shop-page .filter-side .head {
+    padding: 0.5rem 0rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0rem;
+}
+
+.shop-page .filter-side .head h4 {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 400;
+
+}
+
+.shop-page .filter-side .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.shop-page .filter-side .content .link-btn {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    line-height: 16px;
+    font-weight: 300;
+    padding: 0.25rem 0.2rem;
+    color: #222;
+    cursor: pointer;
+    transition: all 1s;
+    background-color: transparent;
+    border: none;
+}
+
+
+.shop-page .filter-side .content .link-btn:hover {
+    transition: all 1s;
+    color: rgb(247, 74, 74) ;
+}
+
+.shop-page .filter-side .content .link-btn.active {
+    transition: all 1s;
+    font-weight: 400;
+    color: #d70d17 ;
+}
+
+
+.shop-page .filter-side .box .range-input {
+    width: 100px;
+    max-width: 140px;
+    display: flex;
+    align-items: center;
+}
+
+.shop-page .filter-side .box .range-input input:nth-child(2) {
+    margin-left: -50px;
+}
+
+.shop-page .main-page {
+    width: 100%;
+    grid-column: span 3;
+}
+
+.shop-page .heading {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 0.8rem 0;
+    padding-bottom: 1rem;
+}
+
+.shop-page .heading .line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+    overflow: hidden;
+}
+
+.shop-page .heading .title {
+    font-family: 'Marcellus', sans-serif !important;
+    font-size: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: 25px;
+}
+
+
+.shop-page .choices {
+    height: 26px;
+    transform: translateY(-4px);
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.shop-page .choices .choice {
+    width: fit-content;
+    height: fit-content;
+    padding: 9px 18px;
+    padding-right: 0px;
+    border-radius: 20px;
+    background-color: #fff;
+    border: 1px solid #aaa6;
+    color: #444;
+    font-size: 11px;
+    line-height: 11px;
+    position: relative;
+    cursor: pointer;
+    transition: all 1s;
+}
+
+.shop-page .choices .choice span {
+    font-size: 14px;
+    padding: 0px 6px;
+    padding-right: 14px;
+
+}
+
+.shop-page .choices .filter-box .close {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #444;
+}
+
+
+
+.shop-page .filter-row {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 450px 1fr;
+    height: 58px;
+    margin-top: -1.6rem;
+    border-bottom: 1px solid #aaa4;
+}
+
+.shop-page .filter-left {
+    width: 100%;
+    max-width: 380px;
+    height: 40px;
+    font-size: 13.5px;
+    line-height: 13.5px;
+    font-weight: 300;
+    color: #222;
+    display: flex;
+    align-items: center;
+
+}
+
+.shop-page .filter-right {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.shop-page .search-content {
+    width: 220px;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.shop-page .search-box {
+    width: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    padding: 2px 6px;
+    align-items: center;
+    overflow: hidden;
+    display: none;
+}
+
+.shop-page .search-box.active {
+    width: 100%;
+    background-color: rgba(242, 17, 17, 0.829);
+    border-radius: 0.5rem;
+
+}
+
+
+.search-box input {
+    background-color: transparent;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 13px;
+    width: 0%;
+    padding: 3px 8px !important;
+    border: none;
+    background-color: transparent;
+    outline: none;
+
+}
+
+.search-box.active input {
+    width: 100%;
+    min-width: 160px;
+}
+
+
+
+.search-box .icon {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 1s;
+}
+
+.search-box .icon {
+    width: 38px;
+    height: 44px;
+    padding: 3px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+
+.search-box i {
+    width: 20px;
+    height: 20px;
+    transform: translateX(8px) scale(0.7);
+}
+
+.search-box.active i {
+    transform: translateX(-6px) scale(0.6);
+}
+
+.shop-page .controls .search-box {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    background-color: #fffa;
+    border: 1px solid #aaa4;
+    padding: 2px 20px;
+    border-radius: 20px;
+}
+
+.shop-page .controls .search-box svg {
+    width: 14px;
+    transform: translateX(5px);
+    color: #777;
+}
+
+.shop-page .controls .search-box input {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 11px;
+    padding: 9px 0px;
+    padding-top: 12px;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+
+.shop-page .controls .select-box {
+    display: flex;
+}
+
+.shop-page .controls .select-box .result {
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 1rem;
+    font-size: 12px;
+    color: #666;
+}
+
+.shop-page .filter-row .sort-content {
+    width: 240px;
+}
+
+
+.shop-page .products-items {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-column-gap: 1.6rem;
+    grid-row-gap: 1.6rem;
+    position: relative;
+    z-index: 0 !important;
+    padding-top: 1rem;
+}
+
+.shop-page .products-items-4 {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-column-gap: 2.6rem;
+    grid-row-gap: 1.6rem;
+}
+
+.pagination {
+    width: 100%;
+    margin-top: 6rem;
+    padding-bottom: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Inter', sans-serif;
+    /* 💡 CLS FIX 1: Reserve vertical space for the component */
+    min-height: 40px; /* Assuming the component height is around 36px plus padding */
+}
+
+.pagination .btns {
+    height: 36px;
+    width: 36px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .btn {
+    background-color: transparent;
+    color: #000;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    /* 💡 CLS FIX 2: Align items to their final position immediately */
+    align-items: center; /* Changed from flex-end to center for stable positioning */
+    border: none !important;
+    cursor: pointer;
+    /* ❌ REMOVED the transform: translateY(10px) to prevent initial shifting */
+    transition: all 0.3s ease-in-out; /* Reduced transition time for smoother response */
+}
+
+.pagination .btn .icon {
+    /* 💡 CLS FIX 3: Ensure icons have a baseline size immediately */
+    transform: scale(0.7); 
+}
+
+.pagination .btn:hover {
+    color: #47566e;
+    /* ✅ Add a subtle hover effect here if desired, but avoid layout shifts */
+}
+
+.pagination .btn.btn-disabled {
+    opacity: 0.2;
+}
+
+/* --- Remaining CSS remains largely unchanged --- */
+
+.pagination .info {
+    display: flex !important;
+    gap: 1.2rem !important;
+}
+
+.pagination .info .strong {
+    font-size: 18px;
+    font-weight: 300;
+    color: #111;
+    width: 24px;
+    text-align: center;
+    transition: width 1s;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-radius: 0px !important;
+}
+
+.pagination .info .strong.active {
+    color: #333;
+    font-weight: 300;
+    border: none;
+}
+/*
+Price Range
+*/
+
+
+.box .inputs {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.2rem 0rem;
+}
+
+.box .inputs.arab {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.2rem 0rem;
+}
+
+.box .inputs span {
+    padding: 10px 0px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.box .inputs strong {
+    padding: 10px 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.box .inputs .cur {
+    font-size: 12px;
+    font-weight: 500;
+    color: #3a3d3f;
+    padding: 0 2px;
+}
+
+.slider {
+    position: relative;
+    height: 6px;
+    direction: ltr;
+}
+
+.arab .slider {
+    position: relative;
+    height: 6px;
+    direction: rtl;
+}
+
+.slider-track,
+.slider-range {
+    position: absolute;
+    height: 6px;
+    border-radius: 3px;
+}
+
+.slider-track {
+    width: 100%;
+    background: #ddd;
+    z-index: 1;
+}
+
+.slider-range {
+    background: #111;
+    z-index: 2;
+}
+
+.thumb {
+    position: absolute;
+    pointer-events: none;
+    height: 9px;
+    width: 100%;
+    background: none;
+    z-index: 300;
+    appearance: none;
+    transform: translateY(-20px);
+}
+
+.thumb::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #111;
+    border: 3px solid #fff;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(207, 45, 45, 0.2);
+    appearance: none;
+}
+
+.thumb::-moz-range-thumb {
+    pointer-events: all;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    border: 3px solid white;
+    cursor: pointer;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.thumb-left {
+    z-index: 4;
+}
+
+
+.thumb-right {
+    z-index: 5;
+}
+
+@media (max-width:1300px) {
+
+    .shop-page {
+        background-color: #000;
+    }
+
+    .shop-page .filter-left {
+        display: none;
+    }
+
+    .shop-page .filter-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        height: 60px;
+        margin-top: -0px;
+        padding: 0 0.25rem;
+    }
+}
+
+@media (max-width:900px) {
+    .shop-page {
+        background-color: #fff;
+    }
+
+    .shop-page .filter-side {
+        display: none;
+    }
+
+    .shop-page .filter-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        height: 120px;
+        margin-top: -0px;
+        padding: 0 0.25rem;
+    }
+
+
+    .shop-page .filter-right {
+        height: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .shop-page .filter-right .space {
+        display: none;
+    }
+
+    .shop-page .filter-right .search-content {
+        width: 100%;
+        margin-top: -0.5rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .shop-page .search-box {
+        width: 100%;
+        background-color: #aaa1;
+        border-radius: 0.5rem;
+    }
+
+    .shop-page .search-box input {
+        width: 100%;
+
+    }
+
+    .shop-page .filter-row .sort-content {
+        width: 100%;
+    }
+}

@@ -12,6 +12,8 @@ type CartContextType = {
   updateCartQty: (ID: number, qty: number) => void;
   removeFromCart: (ID: number) => void;
   removeFromWish: (ID: number) => void;
+  cleanCart: () => void;
+
 };
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -67,6 +69,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const cleanCart = () => {
+    Cookies.set("cartlist", JSON.stringify([]), { expires: 7 });
+  };
+
   // ✅ Correct removeFromWish
   const removeFromWish = (ID: number) => {
     setWishlist(prev => {
@@ -84,6 +90,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       addToCartlist,
       updateCartQty,
       removeFromCart,
+      cleanCart,
       removeFromWish
     }}>
       {children}

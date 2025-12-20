@@ -27,40 +27,16 @@
 .announcement .msg {
     width: 100%;
     text-align: center;
-    font-size: 13px;
-    line-height: 13px;
-    height: 13px;
+    font-size: 12px;
+    line-height: 12px;
+    height: 12px;
     overflow: hidden;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #fff;
-    padding:0px 1rem;
-}
-.announcement .msg {
-    width: 100%;
-    text-align: center;
-    font-size: 12.5px;
-    line-height: 12.5px;
-    font-weight: 200;
-    height: 13px;
-    overflow: hidden;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
+    color: #fffc;
     padding:0px 1rem;
 }
 
-.announcement .msg.ar {
-   
-    font-size: 15px;
-    line-height: 15px;
-    height: 15px;
-    overflow: hidden;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-    padding:0px 1rem;
-}
 
 .announcement .close-ads {
     position: absolute;

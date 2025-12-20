@@ -1,66 +1,62 @@
 "use client";
 import './header.css';
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext, useMemo } from "react";
 import Link from "next/link";
-import Cart from './Cart/Cart';
-import WishList from './Cart/WishList';
+const Cart = dynamic(() => import('./Cart/Cart'));
+const WishList = dynamic(() => import('./Cart/WishList'));
 import { CartContext } from '@/app/CartContext';
+import Cookies from "js-cookie";
+import dynamic from 'next/dynamic';
 
 function HeaderSlim() {
-  const [lang, setLang] = useState<string>("en");
-  const [menuActive, setMenuActive] = useState<boolean>(false);
-  const [cartActive, setCartActive] = useState<boolean>(false);
-  const [wishActive, setWishActive] = useState<boolean>(false);
-
-  const cartRef = useRef<HTMLDivElement>(null);
-  const wishRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-
   const cartContext = useContext(CartContext);
   if (!cartContext) return null;
-
   const { wishlist, cartlist } = cartContext;
+  const [lang, setLang] = useState("en");
 
+  const [langCode, setLangCode] = useState<string>("en");
+  const [langLabel, setLangLabel] = useState<string>("English");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [menuActive, setMenuActive] = useState(false);
+  const [cartActive, setCartActive] = useState(false);
+  const [wishActive, setWishActive] = useState(false);
+
+  const cartRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // تثبيت اللغة من الكوكيز
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const cookieLang = Cookies.get("lang") || "en";
+    setLangCode(cookieLang);
+    setLangLabel(cookieLang === 'ar' ? 'العربي' : cookieLang === 'fr' ? 'Français' : 'English');
+  }, []);
+
+  // إغلاق القوائم عند النقر خارجها
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
         setCartActive(false);
         setWishActive(false);
       }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const changeLanguage = (lng: string) => setLang(lng);
+  const changeLanguage = (lng: string) => {
+    setLangCode(lng);
+    setLangLabel(lng === 'ar' ? 'العربي' : lng === 'fr' ? 'Français' : 'English');
+    Cookies.set("lang", lng, { expires: 400, path: "/" });
+  };
+
+  const selectLang = (lng: string) => () => changeLanguage(lng);
+
+  const toggleDropdown = () => setIsDropdownOpen(prev => !prev);
 
   return (
-    <div>
+    <header>
       {/* Header Top */}
       <div className='header active'>
-        <div className="container cat-lang">
-          <div className="row-links">
-            <div className="col-sections">
-              <div className="links">
-                <a className="link" href="/en/section/classic/كلاسيكي" data-discover="true">Classic</a>
-                <a className="link" href="/en/section/work/عمل" data-discover="true">Work</a>
-                <a className="link" href="/en/section/athletic/رياضي" data-discover="true">Athletic</a>
-                <a className="link" href="/en/section/life/حياة" data-discover="true">Life/Travel</a>
-              </div>
-            </div>
-            <div className="col-lang hide-in-mobile">
-              <button className="link" aria-label="Switch Language">
-                Switch Language
-                <small><i className="icon-chevron"></i></small>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Header Main */}
         <div className="container">
           <div className="row-main">
             <span className="menu" onClick={() => setMenuActive(true)}>
@@ -68,31 +64,41 @@ function HeaderSlim() {
             </span>
 
             <div className="logo">
-              <a className="logo-link" href="/" data-discover="true">
+              <Link href="/" className="logo-link">
                 <img width="24" alt="Logo" src="/logo.svg" />
                 <div className="strong">Eravist</div>
-              </a>
+              </Link>
             </div>
 
             <nav className="navigation">
-              <a className="link" href="/" data-discover="true">Home</a>
-              <a className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</a>
-              <a className="link" href="/#collection" data-discover="true">Collections</a>
-              <a className="link" href="/en/Blog" data-discover="true">Blog</a>
-              <a className="link" href="/en/shop/premium" data-discover="true">Premium</a>
-              <a className="discounts" href="/en/shop/discounts" data-discover="true"><span>Discounts</span></a>
+              <Link href="/">Home</Link>
+              <Link href="/en/shop/arrivals">New Arrivals</Link>
+              <Link href="/#collection">Collections</Link>
+              <Link href="/en/blog">Blog</Link>
+              <Link href="/en/shop/premium">Premium</Link>
+              <Link href="/en/shop/discounts" className="discounts"><span>Discounts</span></Link>
             </nav>
-
             <div className="controls">
-              <span className="icon icon-lg">
-                <p>English</p>
-                <small><i className="icon-dark-chevron"></i></small>
-                <div className="content_lang">
-                  <div onClick={() => changeLanguage('en')}>English</div>
-                  <div onClick={() => changeLanguage('fr')}>Français</div>
-                  <div onClick={() => changeLanguage('ar')}>العربي</div>
+              <div className="ms-none">
+                <span className="icon" onClick={toggleDropdown}>
+                  <span className="count-x">__</span>
+                  <p className='i-lg'>
+                    <i className={`icon-${langCode}`}></i>
+                  </p>
+                  <div className={`content_lang ${isDropdownOpen ? 'active' : ''}`}>
+                    <div onClick={(e) => changeLanguage('en')}>English</div>
+                    <div onClick={(e) => changeLanguage('fr')}>Français</div>
+                    <div onClick={(e) => changeLanguage('ar')}>العربي</div>
+                  </div>
+                </span>
+              </div>
+
+              <div className="ms-none">
+                <div className="icon ">
+                  <i className="icon-dark-search"></i>
                 </div>
-              </span>
+              </div>
+
 
               <span className="icon" onClick={() => setWishActive(true)}>
                 <i className="icon-dark-heart"></i>
@@ -103,7 +109,13 @@ function HeaderSlim() {
                 <i className="icon-dark-shopping"></i>
                 <span className="count">{cartlist.length}</span>
               </div>
+
+
             </div>
+
+
+
+
           </div>
         </div>
       </div>
@@ -115,36 +127,20 @@ function HeaderSlim() {
         </span>
 
         <div className="content">
-          {lang === 'ar' && (
-            <nav className='col-links ar'>
-              <Link href="/ar" className="link">الرئيسية</Link>
-              <Link href="/ar/#arrival" className="link">المنتجات الجديدة</Link>
-              <Link href="/ar/#collection" className="link">الأقسام</Link>
-              <Link href="/ar/#blog" className="link">المدونة</Link>
-              <Link href="/ar/shop/premium" className="link">الجودة الممتازة</Link>
-              <Link href="/ar/shop/discount" className="discounts"><span>الخصومات</span></Link>
-            </nav>
-          )}
-          {lang === 'en' && (
-            <nav className='col-links'>
-              <Link href="/" className="link">Home</Link>
-              <Link href="/en/arrivals" className="link">New Arrivals</Link>
-              <Link href="/#collection" className="link">Collections</Link>
-              <Link href="/en/blog" className="link">Blog</Link>
-              <Link href="/en/shop/premium" className="link">Premium</Link>
-              <Link href="/en/shop/discount" className="discounts"><span>Discounts</span></Link>
-            </nav>
-          )}
-          {lang === 'fr' && (
-            <nav className='col-links'>
-              <Link href="/fr" className="link">Accueil</Link>
-              <Link href="/fr/arrivals" className="link">Nouveautés</Link>
-              <Link href="/fr/#collection" className="link">Collections</Link>
-              <Link href="/fr/#blog" className="link">Blog</Link>
-              <Link href="/fr/shop/premium" className="link">Premium</Link>
-              <Link href="/fr/shop/discount" className="discounts"><span>Réductions</span></Link>
-            </nav>
-          )}
+          <nav className='col-links'>
+            <Link href="/">Home</Link>
+            <Link href="/en/shop/arrivals">New Arrivals</Link>
+            <Link href="/#collection">Collections</Link>
+            <Link href="/en/blog">Blog</Link>
+            <Link href="/en/shop/premium">Premium</Link>
+            <Link href="/en/shop/discount">Discounts</Link>
+          </nav>
+        </div>
+
+        <div className="col-lang">
+          <div className='line' onClick={selectLang('en')}>English</div>
+          <div className='line' onClick={selectLang('fr')}>Français</div>
+          <div className='line' onClick={selectLang('ar')}>العربي</div>
         </div>
       </div>
 
@@ -153,7 +149,7 @@ function HeaderSlim() {
         <Cart active={cartActive} onClose={() => setCartActive(false)} />
         <WishList active={wishActive} onClose={() => setWishActive(false)} />
       </div>
-    </div>
+    </header>
   );
 }
 

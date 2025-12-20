@@ -1,6 +1,5 @@
 "use client"; 
 
-import './blog.css'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -18,7 +17,7 @@ export default function BlogList() {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/posts/last/en`);
+            const response = await fetch(`${API_URL}/api/posts/last`);
             const data = await response.json();
             setPosts(data);
         } catch (error) {
@@ -57,8 +56,7 @@ export default function BlogList() {
                         {posts.map((post:Post) => (
 
                             <article className="article-card" key={post.id}>
-                                <Link href={`/blog/post/${post.id}/${post.slug}`} className="article-link">
-
+                                <Link href={`/en/blog/post/${post.slug}`} className="article-link">
                                     <div className="article-content">
                                         {post.subtitle && (
                                             <p className="article-subtitle">{post.subtitle}</p>

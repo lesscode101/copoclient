@@ -1,6 +1,5 @@
 "use client"; // <-- Add this at the very top
 
-import './itemList.css';
 
 import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -18,7 +17,8 @@ interface Product {
     color: string;
     size: number;
     price: number;
-    oldPrice?: number;
+    discount: number;
+    finalPrice: number;
 }
 
 interface ProductListProps {
@@ -35,17 +35,28 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
         let url = `${API_URL}/api/products/last`
 
         if (title == 'New Arrivals') {
-            setLink('/en/Shop/Arrivals')
+            setLink('/en/shop/arrivals')
             setNewTitle('New Arrivals')
         } else {
-            setLink('/en/Shop/Premium')
+            setLink('/en/shop/best-sellers')
             setNewTitle('Premium')
             url = `${API_URL}/api/products/premium`
         }
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setProducts(data);
+            const mappedProducts = data.map((p: Product) => {
+
+                const price = Number(p.price);
+                const discount = Number(p.discount);
+                return {
+                    ...p,
+                    price: price.toFixed(2),
+                    discount,
+                    finalPrice: discount > 0 ? (price - (price * discount) / 100 ).toFixed(2) : price.toFixed(2)
+                };
+            });
+            setProducts(mappedProducts);
 
         } catch (error) {
             console.log(error);
@@ -68,7 +79,7 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                         <h2 className="title">
                             {title}
                         </h2>
-                        <Link href={link} className="link">
+                        <Link href={link+'#top'} className="link">
                             Go To Shop
                         </Link>
                     </div>
@@ -82,8 +93,8 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                         pagination={{ clickable: true }}
                         breakpoints={{
                             1224: { slidesPerView: 4 }, // large
-                            844: { slidesPerView: 3 },  // medium
-                            494: { slidesPerView: 2 },  // medium
+                            944: { slidesPerView: 3 },  // medium
+                            720: { slidesPerView: 2 },  // medium
                             0: { slidesPerView: 1 }     // small
                         }}
                     >
@@ -93,7 +104,7 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
 
                             <SwiperSlide>
                                 <div key={product.id} className="product-box">
-                                    <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
+                                    <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
 
                                         <div className="image">
                                             <img src={`${API_URL + product.image}`} alt={product.name} />
@@ -102,14 +113,14 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                                     <div className="meta">
 
                                         <h1 className="product-name ">
-                                            <Link href={"./../product/" + product.slug} >
+                                        <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
                                                 {product.name}
                                             </Link>
                                         </h1>
 
                                         <div className="subtitle">{product.color} • {product.size} L</div>
-                                        <p className="price">{product.price} <small>Dhs</small> </p>
-                                        <p className="old">{product.price} <small>Dhs</small> </p>
+                                        <p className="price">{product.finalPrice} <small>MAD</small> </p>
+                                        <p className="old">{product.price} <small>MAD</small> </p>
 
                                     </div>
 

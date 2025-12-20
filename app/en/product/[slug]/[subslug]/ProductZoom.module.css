@@ -1,0 +1,57 @@
+.zoom_modal_container {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+
+.zoom_modal_container img {
+    width: fit-content;
+    min-width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.lens {
+    position: absolute;
+    border: 2px solid #000;
+    width: 100px;
+    height: 100px;
+    opacity: 0.4;
+    background-color: #fff;
+    cursor: crosshair;
+}
+
+.result {
+    border: 1px solid #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 250px !important;
+    height: 250px !important;
+    background-repeat: no-repeat;
+    z-index: 999;
+    background-color: #000;
+}
+
+@media (max-width: 900px) {
+
+    .result {
+        border: 1px solid #000;
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px !important;
+        height: 100px !important;
+        background-repeat: no-repeat;
+        z-index: 999;
+        background-color: #000;
+    }
+
+
+}

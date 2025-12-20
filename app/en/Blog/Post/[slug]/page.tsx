@@ -1,110 +1,117 @@
-"use client";
-import './postblog.css'
 
-import type { NextPage } from "next";
-import Link from "next/link";
-import HeaderSlim from "@/app/components/english/Header/HeaderSlim";
-import Services from "@/app/components/english/Lists/Services";
 import Footer from "@/app/components/english/Footer/Footer";
-import parse from "html-react-parser";
-import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from '@/app/CartContext';
+import HeaderSlim from "@/app/components/english/Header/HeaderSlim";
+import PostContent from './postContent';
+import Link from "next/link";
 
-interface Post {
-    id: number;
-    title: string;
-    slug: string;
-    subtitle: string;
-    content: string;
-    image: string;
-    created_at: string;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+interface PostPageProps {
+    params: { slug: string };
 }
 
-const Post: NextPage = () => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
-    const { slug } = useParams();
-    const [post, setPost] = useState<Post | null>(null);
+async function getPost(slug: string) {
+    const res = await fetch(`${API_URL}/api/posts/slug/${slug}`, {
+        cache: "force-cache",
+        next: { revalidate: 60 } 
+    });
+    if (!res.ok) return null;
+    return res.json();
+}
 
-    const fetchPost = async () => {
-        try {
-            const response = await fetch(`${API_URL}/api/posts/slug/${slug}/`);
-            const data = await response.json();
-            setPost(data);
-        } catch (error) {
-            console.error("Error fetching post:", error);
-        }
-    };
-
-    useEffect(() => {
-        if (slug) fetchPost();
-    }, [slug]);
+export default async function PostPage({ params }: PostPageProps) {
+    const { slug } = await params;
+    const post = await getPost(slug);
+    const base = "https://eravist.com";
 
     if (!post) {
-        return <p className="container">Loading post...</p>;
+        return <div>Post not found</div>;
     }
 
-   
-  const cart = useContext(CartContext);
+    // SEO metadata
+    const title = post.title;
+    const desc = post.subtitle + post.content?.replace(/<[^>]+>/g, "").slice(0, 120) || "Backpack Blog Morocco";
+    const canonical = `${base}/en/blog/post/${slug}`;
+    const image = post.image ? `${API_URL}${post.image}` : `${API_URL}/images/blog-default.webp`;
 
-  if (!cart) return null; // safety check
+    // JSON-LD structured data
+    const blogPostingSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        alternativeHeadline: post.subtitle || "",
+        description: desc,
+        image: image,
+        author: { "@type": "Person", name: post.author || "Eravist" },
+        datePublished: post.created_at,
+        url: canonical,
+        mainEntityOfPage: canonical,
+    };
 
-  return (
-    <div className="app">
-      <HeaderSlim  />
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: base },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${base}/en/blog` },
+            { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+        ],
+    };
 
 
+    const alternatives = {
+        'fr-MA': `${base}/fr/blog/post/${slug}`,
+        'en-MA': `${base}/en/blog/post/${slug}`,
+        'ar-MA': `${base}/ar/blog/post/${slug}`,
+        'x-default': canonical,
+    };
+
+    return (
+        <>
+            <title>{title}</title>
+            <link rel="canonical" href={canonical} />
+            <meta name="description" content={desc} />
+            <meta name="keywords" content="backpack blog Morocco, backpack reviews, travel backpacks, premium backpacks, guides" />
+            {Object.entries(alternatives).map(([lang, url]) => (
+                <link key={lang} rel="alternate" hrefLang={lang} href={url} />
+            ))}
+            {/* Open Graph */}
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={desc} />
+            <meta property="og:image" content={image} />
+            <meta property="og:type" content="article" />
+            <meta property="og:url" content={canonical} />
+
+            {/* Twitter */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={desc} />
+            <meta name="twitter:image" content={image} />
+            <meta name="twitter:site" content="@EravistOfficial" />
+
+            {/* Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema).replace(/</g, "\\u003c") }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, "\\u003c") }}
+            />
+
+            {/* Page content */}
+            <HeaderSlim />
             <div className="breadcrumb">
                 <ul className="container">
-                    <li>
-                        <Link className="link" href="/">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="link" href="/en/blog">
-                            Blog
-                        </Link>
-                    </li>
-                    <li>
-                        <span>{post.title}</span>
-                    </li>
+                    <li><Link className="link" href="/">Home</Link></li>
+                    <li><Link className="link" href="/en/blog">Blog</Link></li>
+                    <li><div className='link-title'>{post.title}</div></li>
                 </ul>
             </div>
 
-            <div className="post-blog">
-
-            <div className="container">
-                <main className="post-items" role="main">
-                    <aside className="post-media" aria-label="Post image">
-                        <figure className="thumb">
-                            {post.image && <img src={`${API_URL}${post.image}`} alt={post.title} />}
-                        </figure>
-                    </aside>
-
-                    <article className="post-content">
-                        <div className="post-heading">
-                            <div className="post-meta">{post.subtitle}</div>
-                            <h1 className="post-title">{post.title}</h1>
-                            <p className="post-date">
-                                <span>Post on </span>
-                                {post.created_at}  
-                            </p>
-                        </div>
-
-                        <section className="post-body" aria-labelledby="post-title">
-                            {parse(post.content)}
-                        </section>
-                    </article>
-                </main>
-            </div>
-
-            </div>
-
-            <Services />
+            <PostContent post={post} />
             <Footer />
-        </div>
-    );
-};
 
-export default Post;
+        </>
+    );
+}

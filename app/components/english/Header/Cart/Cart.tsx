@@ -150,9 +150,9 @@ function Cart({ active, onClose }: CartProps) {
 
               return (
                 <div className="item" key={item.id}>
-                  <Link href={`/product/${item.slug}`} className="item-name">{item.name}</Link>
+                  <Link href={`/en/product/${item.slug}/${item.slug}`} className="item-name">{item.name}</Link>
 
-                  <Link href={`/product/${item.slug}`}>
+                  <Link href={`/en/product/${item.slug}/${item.slug}`}>
                     <span className="item-image"><img src={API_URL + item.image} alt={item.name} /></span>
                   </Link>
 
@@ -184,7 +184,7 @@ function Cart({ active, onClose }: CartProps) {
 
       <div className="summer">
         <h3>Total: {totalPrice.toFixed(2)} <small>mad</small></h3>
-        <Link href="/en/Checkout" className="btn-checkout">Checkout</Link>
+        <Link href="/en/checkout" className="btn-checkout">Checkout</Link>
       </div>
     </div>
   );

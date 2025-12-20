@@ -6,10 +6,9 @@ import './shop.css';
 import { useEffect, useState, useCallback, useMemo, useContext } from "react";
 import Link from "next/link";
 import SortByDropdown from '@/app/components/Filter/SortByDropdown';
-import HeaderSlim from '@/app/components/english/Header/HeaderSlim';
 import { CartContext } from '@/app/CartContext';
+import Image from 'next/image';
 
-import Head from "next/head";
 
 
 
@@ -24,11 +23,15 @@ interface Product {
     discount: number;
     size: string;
     color: string;
+    category: number;
+
 }
 
-interface Category {
-    category: string;
-    count: number;
+interface CategoryInter {
+    id_category: number;
+    name: string;
+    product_count: number;
+
 }
 
 interface Color {
@@ -57,7 +60,7 @@ const ShopContent = () => {
     const [searchActive, setSearchActive] = useState(false);
     const [sortOption, setSortOption] = useState("");
 
-    const [category, setCategory] = useState("All");
+    const [category, setCategory] = useState(0);
     const [color, setColor] = useState("All");
     const [size, setSize] = useState("All");
 
@@ -67,15 +70,20 @@ const ShopContent = () => {
     const maxLimit = 1550;
 
     const [rawProducts, setRawProducts] = useState<Product[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<CategoryInter[]>([]);
     const [colors, setColors] = useState<Color[]>([]);
     const [sizes, setSizes] = useState<Size[]>([]);
 
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
+    const [categoryname, setCategoryName] = useState("");
+
     const [totalPages, setTotalPages] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
+    const [categoryTotal, setCategoryTotal] = useState(0);
+
+
 
     const handleMinChange = (e: any) => setMin(Math.min(Number(e.target.value), max - 1));
     const handleMaxChange = (e: any) => setMax(Math.max(Number(e.target.value), min + 1));
@@ -88,7 +96,7 @@ const ShopContent = () => {
         const fetchData = async () => {
             try {
                 const [catRes, colRes, sizeRes] = await Promise.all([
-                    fetch(`${API_URL}/api/categories`),
+                    fetch(`${API_URL}/api/categories/product`),
                     fetch(`${API_URL}/api/products/colors`),
                     fetch(`${API_URL}/api/products/sizes`)
                 ]);
@@ -98,11 +106,11 @@ const ShopContent = () => {
                 const sizeData = await sizeRes.json();
 
                 setCategories(catData);
+                const totalProducts = catData.reduce((sum: any, c: { product_count: any; }) => sum + (c.product_count || 0), 0);
+                setCategoryTotal(totalProducts)
                 setColors(colData);
                 setSizes(sizeData);
 
-                const allCategory = catData.find((c: Category) => c.category === "All");
-                if (allCategory) setTotalProducts(allCategory.count);
 
             } catch (err) {
                 console.error(err);
@@ -121,6 +129,11 @@ const ShopContent = () => {
                 `${API_URL}/api/products/search/page/${page}?q=${search}&minPrice=${min}&maxPrice=${max}&category=${category}&color=${color}&size=${size}`
             );
             const data = await res.json();
+            console.log(
+                `${API_URL}/api/products/search/page/${page}?q=${search}&minPrice=${min}&maxPrice=${max}&category=${category}&color=${color}&size=${size}`
+
+
+            )
 
 
             setRawProducts(data.products);
@@ -135,6 +148,10 @@ const ShopContent = () => {
 
     useEffect(() => {
         fetchProducts();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // optional for smooth scrolling
+        });
     }, [fetchProducts]);
 
     // Sorted products
@@ -169,21 +186,7 @@ const ShopContent = () => {
     if (!cart) return null; // safety check
 
     return (
-        <section className="shop-page">
-
-            <HeaderSlim />
-
-            <div className="breadcrumb">
-                <ul className="container">
-                    <li>
-                        <Link className="link" href="/">Home</Link>
-                    </li>
-
-                    <li>
-                        <span>Shop</span>
-                    </li>
-                </ul>
-            </div>
+        <section className="shop-page" id="sale">
 
             < div className="container" >
                 <div className="row">
@@ -194,14 +197,23 @@ const ShopContent = () => {
                         <div className="box">
                             <div className="head"><h4>Collection</h4></div>
                             <div className="content">
+                                <button
+                                    key='0'
+                                    className={`link-btn ${category == 0 ? "active" : ""}`}
+                                    onClick={() => { setCategory(0); setPage(1); }}
+                                    aria-label='all'
+                                >
+                                    All <span className="count">({categoryTotal})</span>
+                                </button>
                                 {categories.map(c => (
                                     <button
-                                        key={c.category}
-                                        className={`link-btn ${category == c.category ? "active" : ""}`}
-                                        onClick={() => { setCategory(c.category); setPage(1); }}
-                                        aria-pressed={category === c.category}
+                                        key={c.id_category}
+                                        className={`link-btn ${category == c.id_category ? "active" : ""}`}
+                                        onClick={() => { setCategory(c.id_category); setCategoryName(c.name); setPage(1); }}
+                                        aria-label={c.name}
+
                                     >
-                                        {c.category} <span className="count">({c.count})</span>
+                                        {c.name} <span className="count">({c.product_count})</span>
                                     </button>
                                 ))}
                             </div>
@@ -254,8 +266,8 @@ const ShopContent = () => {
                                 </div>
                             </div>
                             <div className="inputs">
-                                <span>{min}</span><span className="cur">Dhs</span><strong>-</strong>
-                                <span>{max}</span><span className="cur">Dhs</span>
+                                <span>{min}</span><span className="cur">MAD</span><strong>-</strong>
+                                <span>{max}</span><span className="cur">MAD</span>
                             </div>
                         </div>
                     </aside>
@@ -267,7 +279,7 @@ const ShopContent = () => {
                             <div className="line">
                                 <h1 className="title">Store</h1>
                                 <div className="choices">
-                                    {category !== "All" && <button className="choice" onClick={() => setCategory("All")}>{category} <span>×</span></button>}
+                                    {category !== 0 && <button className="choice" onClick={() => setCategory(0)}>{categoryname} <span>×</span></button>}
                                     {color !== "All" && <button className="choice" onClick={() => setColor("All")}>{color} <span>×</span></button>}
                                     {size !== "All" && <button className="choice" onClick={() => setSize("All")}>{size} <span>×</span></button>}
                                 </div>
@@ -303,22 +315,24 @@ const ShopContent = () => {
 
                         {/* Products */}
                         <div className="products-items">
-                            {sortedProducts.map(product => (
+                            {sortedProducts.map((product, i) => (
                                 <div key={product.id} className="product-box">
-                                    <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
+                                    <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
                                         <div className="image">
-                                            <img src={`${API_URL + product.image}`} alt={product.name} loading="lazy" />
+                                            <Image width={300} priority={i === 0} height={300} src={`${API_URL}${product.image}`} alt={product.name} />
                                         </div>
                                     </Link>
 
                                     <div className="meta">
                                         <h2 className="product-name">
-                                            <Link href={`/product/${product.slug}`}>{product.name}</Link>
+                                            <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
+                                                {product.name}
+                                            </Link>
                                         </h2>
                                         <div className="subtitle">{product.color} • {product.size} L</div>
-                                        <p className="price">{getNewPrice(product.price, product.discount)} <small>Dhs</small></p>
+                                        <p className="price">{getNewPrice(product.price, product.discount)} <small>MAD</small></p>
                                         {product.discount > 0 &&
-                                            <p className="old">{product.price} <small>Dhs</small></p>
+                                            <p className="old">{product.price} <small>MAD</small></p>
                                         }
                                     </div>
 
@@ -332,6 +346,10 @@ const ShopContent = () => {
                                     </div>
                                 </div>
                             ))}
+                            {/* placeholders to keep grid shape */}
+                            {Array.from({ length: Math.max(0, 6 - sortedProducts.length) }).map((_, i) => (
+                                <div key={i} className="product-box-b"></div>
+                            ))}
                         </div>
 
                         {/* Pagination */}
@@ -341,21 +359,19 @@ const ShopContent = () => {
                                     <div className="icon"><i className="icon-dark-chevron left"></i></div>
                                 </button>
                             </span>
-                            <span className="info">
-                                {page - 1 > 0 &&
-                                    <button className="strong active" onClick={() => setPage(page - 1)}>
-                                        {page - 1}
-                                    </button>
-                                }
+                            {page - 1 > 0 &&
+                                <button className="btn" onClick={() => setPage(page - 1)}>
+                                    {page - 1}
+                                </button>
+                            }
 
-                                <div className="strong"><strong>{page}</strong></div>
+                            <div className="btn active"><strong>{page}</strong></div>
 
-                                {page < totalPages &&
-                                    <button className="strong active" onClick={() => setPage(page + 1)}>
-                                        {page + 1}
-                                    </button>
-                                }
-                            </span>
+                            {page < totalPages &&
+                                <button className="btn" onClick={() => setPage(page + 1)}>
+                                    {page + 1}
+                                </button>
+                            }
 
                             <span className="btns">
                                 <button disabled={page >= totalPages} className={page >= totalPages ? "btn btn-disabled" : "btn"} aria-label="Next Page" onClick={() => setPage(page + 1)}>
@@ -366,7 +382,8 @@ const ShopContent = () => {
                     </div>
                 </div>
             </div >
-        </section >
+
+        </section>
     )
 };
 

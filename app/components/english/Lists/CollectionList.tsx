@@ -1,20 +1,21 @@
 "use client"; // <-- Add this at the very top
 
-import './itemList.css';
-
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from 'swiper/modules';
+import { A11y, Pagination, Scrollbar } from 'swiper/modules';
 
 interface Collection {
     id: number;
-    img: string;
-    category: string;
+    slug: string;
+    name: string;
+    image: string;
+    product_count: number;
     count: number;
+
 }
 
 export default function CollectionList() {
@@ -23,35 +24,40 @@ export default function CollectionList() {
     const [collections, setCollections] = useState<Collection[]>([]);
 
     useEffect(() => {
-        const url = `${API_URL}/api/categories`;
+        const url = `${API_URL}/api/categories/product`;
 
         fetch(url)
             .then((res) => res.json())
             .then((data) => {
                 const formatted = data
-                    .filter((item: Collection) => item.category !== "All")
+                    .filter((item: Collection) => item.name !== "All")
                     .map((item: Collection) => ({
                         id: item.id,
-                        category: item.category,
-                        count: item.count || 0,
-                        img: `${item.category}.webp`,
+                        name: item.name,
+                        slug: item.slug,
+                        count: item.product_count || 0,
+                        image: `${item.image}`,
                     }));
 
                 setCollections(formatted);
             });
+
+        
     }, []);
 
     return (
-        <section className="item-list" id="arrivals">
+        <section className="item-list">
             <div className="container">
                 <div className="heading">
                     <div className="line">
-                        <h2 className="title">Collections</h2>
-
-                        <Link href="/shop" className="link">
-                            Shop all
+                        <h2 className="title">
+                            Collections
+                        </h2>
+                        <Link href={'/en/shop#top'}  className="link">
+                            Go To Shop
                         </Link>
                     </div>
+
                 </div>
 
                 <div className="content">
@@ -71,25 +77,22 @@ export default function CollectionList() {
                             <SwiperSlide key={c.id}>
                                 <article className="collection">
                                     <div className="image">
-                                        <img
-                                            src={`${API_URL}/images/categories/${c.img}`}
-                                            alt={c.category}
-                                        />
-
-                                        <Link
-                                            href={`/section/${c.category}`}
-                                            className="btn-view"
-                                        >
-                                            View Collection
+                                        <Link href={`/en/category/${c.slug}#top`} >
+                                            <img
+                                                src={`${API_URL}${c.image}`}
+                                                alt={c.name}
+                                            />
                                         </Link>
                                     </div>
-
-                                    <div className="badge">
-                                        <div className="line">
-                                            <h3 className="title">{c.category}</h3>
-                                            <p className="text-xs">{c.count} items</p>
+                                    <Link href={`/en/category/${c.slug}#top`} >
+                                        <div className="badge">
+                                            <div className="line">
+                                                <h3 className="title">{c.name}</h3>
+                                                <p className="text-xs">{c.count} items</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
+
                                 </article>
                             </SwiperSlide>
                         ))}

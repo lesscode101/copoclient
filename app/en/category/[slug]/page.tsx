@@ -1,160 +1,70 @@
-import { Metadata } from "next";
 import SectionContent from "./SectionContent";
+import Footer from "@/app/components/english/Footer/Footer";
+import HeaderSlim from "@/app/components/english/Header/HeaderSlim";
+import Services from "@/app/components/english/Lists/Services";
+import Link from "next/link";
 
 async function getCategory(slug: string) {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const page = 1
-    const search = ""
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-    console.log(
-        `${API_URL}/api/products/search/page/${page}?q=${search}&category=${slug}`
-    )
+  const res = await fetch(
+    `${API_URL}/api/categories/slug/${slug}`,
+    { next: { revalidate: 300 } } // ✅ Cache ذكي
+  );
 
-    const res = await fetch(
-        `${API_URL}/api/products/search/page/${page}?q=${search}&category=${slug}`,
-        { cache: "no-cache" } // keep fresh
-    );
-    if (!res.ok) return null;
-    return res.json();
-}
-export interface OtherU {
-    [key: string]: {
-        type: string;
-        children: string;
-    };
-}
-export async function generateMetadata({
-    params,
-}: {
-    params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-    const { slug } = await params;
-
-    const data = await getCategory(slug);
-    if (!data) {
-        return {
-            title: "Category Not Found",
-            robots: "noindex, nofollow",
-        };
-    }
-
-    let base = 'https://eravist.com'
-    const title = slug + ' backpack in Morccoo ';
-    const desc = 'Discover our premium selection of professional work backpacks designed for modern professionals, commuters, and business travelers. Our durable office backpacks combine sleek corporate aesthetics with practical functionality, featuring laptop compartments, USB charging ports, and anti-theft security features.';
-    console.log(data.products[0])
-
-    const collectionSchema = {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        name: title,
-        description: desc || "",
-        url: `${base}/category/${slug}`,
-    };
-
-    const itemListSchema = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        itemListElement: data.products.map((p: any, i: number) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            url: `${base}/product/${p.slug}`,
-        })),
-    };
-
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: base },
-            { "@type": "ListItem", position: 2, name: "Categories", item: `${base}/categories` },
-            { "@type": "ListItem", position: 3, name: title, item: `${base}/category/${slug}` },
-        ],
-    };
-
-    return {
-        title: slug,
-        description: desc || "",
-        alternates: {
-            canonical: `${base}/category/${slug}`,
-        }
-    };
+  if (!res.ok) return null;
+  return res.json();
 }
 
 export default async function CategoryPage({
-    params,
+  params,
 }: {
-    params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-    const { slug } = await params;
-    const data = await getCategory(slug);
-    console.log(data)
+  const { slug } = await params;
+  const data = await getCategory(slug);
 
-    if (!data) {
-        return <div>Category not found</div>;
-    }
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const products = data.products;
+  if (!data) return null;
 
-    // JSON-LD Schemas
-    const collectionSchema = {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        name: slug,
-        description: products[0]?.content?.slice(0, 160) || "",
-        url: `${API_URL}/category/${slug}`,
-    };
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const base = "https://eravist.com";
 
-    const itemListSchema = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        itemListElement: products.map((p: any, i: number) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            url: `${API_URL}/product/${p.slug}`,
-        })),
-    };
+  const title = `${data.name} in Morocco`;
+  const desc = data.content || title;
+  const image = `${API_URL}${data.category_image || ""}`;
+  const canonical = `${base}/en/section/${slug}`;
 
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: API_URL },
-            { "@type": "ListItem", position: 2, name: "Categories", item: `${API_URL}/categories` },
-            { "@type": "ListItem", position: 3, name: slug, item: `${API_URL}/category/${slug}` },
-        ],
-    };
+  return (
+    <>
+      {/* SEO */}
+      <title>{title}</title>
+      <meta name="description" content={desc} />
+      <link rel="canonical" href={canonical} />
 
-    return (
-        <>
-            {/* JSON-LD Injected Automatically into <head> */}
+      {/* OG */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={desc} />
+      <meta property="og:image" content={image} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={canonical} />
 
-            <script
-                id="collection-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(collectionSchema).replace(/</g, '\\u003c'),
-                }}
-            />
-            <script
-                id="schema-itemlist"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(itemListSchema).replace(/</g, '\\u003c'),
-                }}
-            />
+      <HeaderSlim />
 
-            <script
-                id="schema-breadcrumbs"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c'),
-                }}
-            />
+      <div className="breadcrumb">
+        <ul className="container">
+          <li><Link href="/">Home</Link></li>
+          <li><Link href="/en/shop">Shop</Link></li>
+          <li><span aria-current="page">{data.name}</span></li>
+        </ul>
+      </div>
 
+      <SectionContent
+        initialProducts={data.products}
+        categoryName={data.name}
+      />
 
-            {/* Category UI */}
-            <SectionContent/>
-        </>
-
-    );
+      <Services />
+      <Footer />
+    </>
+  );
 }

@@ -1,0 +1,84 @@
+.abt-section {
+    padding: 2rem 0rem;
+}
+
+.abt-section h1,
+h2,
+h3,
+h4,
+h6,
+p {
+    font-family: 'Open Sans', -apple-system, sans-serif !important;
+}
+
+.abt-section .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    margin-top: 4rem;
+}
+
+.privacy-title {
+    font-size: 34px;
+    font-weight: 300;
+    color: #000;
+    padding: 1rem 0rem;
+}
+
+.privacy-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: #000;
+    padding: 1rem 0 ;
+}
+.privacy-smtitle{
+    font-size: 18px;
+    font-weight: 300;
+    color: #000;
+    padding: 1rem 0;
+    padding-top: 2rem;
+
+}
+
+.abt-section .service {
+    padding: 1rem 0rem;
+}
+
+.abt-section .service .para {
+    font-size: 14.5px ;
+    line-height: 26px ;
+    font-weight: 400;
+    color: #333;
+    padding-bottom: 0.4rem;
+}
+
+
+.abt-section .service .para strong {
+    font-size: 14.5px ;
+    line-height: 26px ;
+    font-weight: 500;
+    padding-right: 0.3rem;
+    color: #111;
+    padding-top: 0rem;
+}
+
+.abt-section .service .ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    list-style: circle !important;
+    padding: 1rem 2rem;
+}
+
+.abt-section .service .ul li {
+    list-style: circle !important;
+}
+
+.abt-section .service .ul li {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 300;
+    color: #222;
+
+}

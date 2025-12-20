@@ -114,9 +114,9 @@ function WishList({ active, onClose }: WishProps) {
           <div className="items">
             {items.map(item => (
               <div className="item" key={item.id}>
-                <Link href={`/product/${item.slug}`} className="item-name">{item.name}</Link>
+                <Link href={`/en/product/${item.slug}/${item.slug}`} className="item-name">{item.name}</Link>
 
-                <Link href={`/product/${item.slug}`}>
+                <Link href={`/en/product/${item.slug}/${item.slug}`}>
                   <span className="item-image">
                     <img src={API_URL + item.image} alt={item.name} />
                   </span>

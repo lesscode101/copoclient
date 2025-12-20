@@ -1,6 +1,8 @@
 "use client"; // <-- Add this at the very top
 
 import Link from 'next/link';
+import Cookies from "js-cookie";
+
 import './header.css';
 
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -12,11 +14,15 @@ import TopAnnouncement from './TopAnnouncement';
 
 function Header() {
    const [isHActive, setIsHActive] = useState(false);
-   const [lang, setLang] = useState<string>("en");
+   const [lang, setLang] = useState("");
+   const [language, setLanguage] = useState("");
+   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
    const [menuActive, setMenuActive] = useState<boolean>(false);
    const [cartActive, setCartActive] = useState<boolean>(false);
    const [wishActive, setWishActive] = useState<boolean>(false);
+   const [categories, setCategories] = useState([]);
+
 
    const cartRef = useRef<HTMLDivElement>(null);
    const menuRef = useRef<HTMLDivElement>(null);
@@ -25,7 +31,7 @@ function Header() {
    if (!cartContext) return null;
    const { wishlist, cartlist } = cartContext;
 
-  
+
 
    function handleScroll(id: string): void {
       const section = document.getElementById(id);
@@ -43,11 +49,35 @@ function Header() {
       }
    }
 
-   function changeLanguage(arg0: string): void {
-      throw new Error('Function not implemented.');
-   }
 
    useEffect(() => {
+      getCategories()
+   }, [])
+   async function getCategories() {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${API_URL}/api/categories/product`);
+      const data = await res.json();
+      const firstFourRows: any = Array.isArray(data) ? data.slice(0, 4) : [];
+
+      firstFourRows.forEach((c: any) => {
+         c.name = c.name.split(" ")[0];
+      });
+      setCategories(firstFourRows);
+   }
+
+
+   useEffect(() => {
+
+      let myCookie = Cookies.get("lang") + '';
+      setLang(myCookie)
+      if (myCookie == 'ar') {
+         setLanguage('العربي')
+      } else if (myCookie == 'fr') {
+         setLanguage('Français')
+      } else {
+         setLanguage('English')
+      }
+
       function handleClickOutside(event: MouseEvent) {
          if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
             setCartActive(false);
@@ -75,6 +105,30 @@ function Header() {
       };
    }, []);
 
+
+
+   function setCookie(value: string) {
+      Cookies.set("lang", value, {
+         expires: 400,
+         path: "/",
+      });
+   }
+   const changeLanguage = (lng: string) => {
+      if (lng == 'fr') {
+         setLanguage('Français')
+      } else if (lang == 'ar') {
+         setLanguage('العربي')
+      } else {
+         setLanguage('English')
+      }
+      setLang(lng);
+      setCookie(lng)
+   }
+   function toggleDropdown() {
+      setIsDropdownOpen(!isDropdownOpen)
+   }
+
+
    return (
       <div>
 
@@ -86,18 +140,17 @@ function Header() {
             <div className="container cat-lang">
                <div className="row-links">
                   <div className="col-sections">
+
                      <div className="links">
-                        <a className="link" href="/en/section/classic" data-discover="true">Classic</a>
-                        <a className="link" href="/en/section/work" data-discover="true">Work</a>
-                        <a className="link" href="/en/section/athletic" data-discover="true">Athletic</a>
-                        <a className="link" href="/en/section/life" data-discover="true">Life/Travel</a>
+                        {categories.map((c: any) => (
+                           <Link className="link" key={c.slug} href={"/en/category/" + c.slug + "#top"} data-discover="true">{c.name}</Link>
+                        ))}
+
                      </div>
                   </div>
-                  <div className="col-lang hide-in-mobile">
-                     <button className="link" aria-label="Switch Language">
-                        Switch Language
-                        <small><i className="icon-chevron"></i></small>
-                     </button>
+                  <div className="col-shipping">
+                     <Link href={'/en/checkout/track-order/your-order'} className='link'> Tracking your orders with <span aria-label='track-order'><i className="icon-white-zoom"></i></span> </Link>
+                     <Link href={'/en/about/shipping-policy'} className='link'> Shipping to all cities in <strong>Morocco</strong></Link>
                   </div>
                </div>
             </div>
@@ -123,28 +176,34 @@ function Header() {
                      <a className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</a>
                   </nav>
                   <div className="controls">
-                     <div className="icon icon-lg">
-                        <p>English</p>
-                        <small><i className="icon-dark-chevron"></i></small>
-                        <div className="content_lang">
-                           <div>English</div>
-                           <div>Français</div>
-                           <div>العربي</div>
+                     <div className="ms-none">
+                        <span className="icon" onClick={toggleDropdown}>
+                           <span className="count-x">__</span>
+                           <p className='i-lg'>
+                              <i className={`icon-${lang}`}></i>
+                           </p>
+                           <div className={`content_lang ${isDropdownOpen ? 'active' : ''}`}>
+                              <div onClick={(e) => changeLanguage('en')}>English</div>
+                              <div onClick={(e) => changeLanguage('fr')}>Français</div>
+                              <div onClick={(e) => changeLanguage('ar')}>العربي</div>
+                           </div>
+                        </span>
+                     </div>
+
+                     <div className="ms-none">
+                        <div className="icon ">
+                           {isHActive ? <i className="icon-dark-search"></i> : <i className="icon-search"></i>}
                         </div>
                      </div>
-                     <div className="icon"></div>
 
-                     <div className="icon ">
-                        {isHActive ? <i className="icon-dark-search"></i> : <i className="icon-search"></i>}
-                     </div>
 
                      <span className="icon" onClick={() => setWishActive(true)}>
-                        <i className="icon-heart"></i>
+                        {isHActive ? <i className="icon-dark-heart"></i> : <i className="icon-heart"></i>}
                         <span className="count">{wishlist.length}</span>
                      </span>
 
                      <div className="icon" onClick={() => setCartActive(true)}>
-                        <i className="icon-shopping"></i>
+                        {isHActive ? <i className="icon-dark-shopping"></i> : <i className="icon-shopping"></i>}
                         <span className="count">{cartlist.length}</span>
                      </div>
 
@@ -166,52 +225,23 @@ function Header() {
 
             <div className="content">
 
-               {lang == 'ar' ?
-                  <nav className='col-links ar'>
-                     <Link href="/ar" onClick={() => handleScroll('home')} className="link">الرئيسية</Link>
-
-                     <Link href="/ar/#arrival" className="link">المنتجات الجديدة</Link>
-                     <Link href="/ar/#collection" className="link">الأقسام</Link>
-                     <Link href="/ar/#blog" className="link">المدونة</Link>
-
-                     <Link href="/ar/shop/premium" onClick={() => handleScroll('premium')} className="link">الجودة الممتازة</Link>
-                     <Link href="/ar/shop/discount" onClick={() => handleScroll('discount')} className="discounts"><span>الخصومات</span></Link>
-
-                  </nav>
-                  : ''
-               }
 
 
-               {lang == 'en' ?
-                  <nav className='col-links'  >
-                     <Link href="/" onClick={() => handleScroll('home')} className="link">Home</Link>
+               <nav className='col-links'  >
+                  <Link href="/" onClick={() => handleScroll('home')} className="link">Home</Link>
 
-                     <Link href="/en/shop/arrivals" className="link">New Arrivals</Link>
-                     <Link href="/#collection" className="link">Collections</Link>
-                     <Link href="/en/blog" className="link">Blog</Link>
+                  <Link href="/en/shop/arrivals" className="link">New Arrivals</Link>
+                  <Link href="/#collection" className="link">Collections</Link>
+                  <Link href="/en/blog" className="link">Blog</Link>
 
-                     <Link href="/en/shop/premium" onClick={() => handleScroll('premium')} className="link">Premium</Link>
-                     <Link href="/en/shop/discount" onClick={() => handleScroll('discount')} className="discounts">Discounts</Link>
+                  <Link href="/en/shop/premium" onClick={() => handleScroll('premium')} className="link">Premium</Link>
+                  <Link href="/en/shop/discount" onClick={() => handleScroll('discount')} className="discounts">Discounts</Link>
 
-                  </nav>
-                  : ''
-               }
+               </nav>
 
 
-               {lang == 'fr' ?
-                  <nav className='col-links'  >
-                     <Link href="/fr" onClick={() => handleScroll('home')} className="link">Accueil</Link>
 
-                     <Link href="fr/arrivals" className="link">Nouveautés</Link>
-                     <Link href="fr/#collection" className="link">Collections</Link>
-                     <Link href="fr/#blog" className="link">Blog</Link>
 
-                     <Link href="fr/shop/premium" onClick={() => handleScroll('premium')} className="link">Premium</Link>
-                     <Link href="fr/shop/discount" onClick={() => handleScroll('discount')} className="discounts">Réductions</Link>
-
-                  </nav>
-                  : ''
-               }
             </div>
 
 

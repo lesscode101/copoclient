@@ -1,7 +1,5 @@
 "use client"; // <-- Add this at the very top
 
-import './itemList.css';
-
 import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -18,7 +16,8 @@ interface Product {
     color: string;
     size: number;
     price: number;
-    oldPrice?: number;
+    discount: number;
+    finalPrice: number;
 }
 
 interface ProductListProps {
@@ -45,7 +44,18 @@ const ProductSimilar: React.FC<ProductListProps> = ({ title }) => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setProducts(data);
+            const mappedProducts = data.map((p: Product) => {
+
+                const price = Number(p.price);
+                const discount = Number(p.discount);
+                return {
+                    ...p,
+                    price:price.toFixed(2),
+                    discount,
+                    finalPrice: discount > 0 ? (price - (price * discount) / 100 ).toFixed(2) : price.toFixed(2)
+                };
+            });
+            setProducts(mappedProducts);
 
         } catch (error) {
             console.log(error);
@@ -78,7 +88,7 @@ const ProductSimilar: React.FC<ProductListProps> = ({ title }) => {
 
                     <SwiperSlide>
                         <div key={product.id} className="product-box">
-                            <Link href={`./../../en/product/${product.slug}/${product.slug}`}>
+                            <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
 
                                 <div className="image">
                                     <img src={`${API_URL + product.image}`} alt={product.name} />
@@ -87,14 +97,14 @@ const ProductSimilar: React.FC<ProductListProps> = ({ title }) => {
                             <div className="meta">
 
                                 <h1 className="product-name ">
-                                    <Link href={"./../product/" + product.slug} >
+                                    <Link href={`/en/product/${product.slug}/${product.slug}`}>
                                         {product.name}
                                     </Link>
                                 </h1>
 
                                 <div className="subtitle">{product.color} • {product.size} L</div>
-                                <p className="price">{product.price} <small>Dhs</small> </p>
-                                <p className="old">{product.price} <small>Dhs</small> </p>
+                                <p className="price">{product.finalPrice} <small>MAD</small> </p>
+                                <p className="old">{product.price} <small>MAD</small> </p>
 
                             </div>
 
