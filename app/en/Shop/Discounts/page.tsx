@@ -1,6 +1,6 @@
 import "./../shop.css";
 
-import ListContent from "../listContent";
+import ListContent from "./../listContent";
 
 async function getDiscounts() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;

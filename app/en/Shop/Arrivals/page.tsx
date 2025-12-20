@@ -1,6 +1,6 @@
 import "./../shop.css";
 
-import ListContent from "@/app/en/shop/listContent";
+import ListContent from "./../listContent";
 
 // Fetch data
 async function getArrivals() {
