@@ -1,3 +1,4 @@
+import './../../shop/shop.css'
 import SectionContent from "./SectionContent";
 import Footer from "@/app/components/english/Footer/Footer";
 import HeaderSlim from "@/app/components/english/Header/HeaderSlim";

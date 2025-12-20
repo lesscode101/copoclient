@@ -27,7 +27,7 @@
 
 .hero .img-hero img {
     width: fit-content;
-    min-width: 100%;
+    width: 100%;
     height: 100%;
     object-position: bottom;
     object-fit: cover;
@@ -155,19 +155,11 @@
 /* =========================================================
    RESPONSIVE
 ========================================================= */
-.hero .img-hero-mobile {
-    display: none;
-}
+
 @media (max-width: 600px) {
-    .hero .img-hero {
-        display: none;
-    }
+    
 
-    .hero .img-hero-mobile {
-        display: block;
-    }
-
-    .hero .img-hero-mobile img {
+    .hero .img-hero img {
         width: 100%;
         height: 100vh;
         object-fit: cover;
