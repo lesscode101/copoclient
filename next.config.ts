@@ -1,22 +1,29 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    images: {
-        // 1. **الحل السريع:** تعطيل التحسينات
-        unoptimized: true,
+  reactStrictMode: true,
 
-        // 2. أو، استخدام remotePatterns (يجب أن يعمل هذا الآن):
-        remotePatterns: [
-            {
-                protocol: 'https', // يجب أن تكون مطابقة لبروتوكول الرابط (https)
-                hostname: '192.168.1.100', // عنوان IP
-                port: '5000', // المنفذ
-                pathname: '/images/products/**',
-            },
-        ],
-    },
+  // إعدادات الصور
+  images: {
+    unoptimized: true, // خيار سريع إذا لم تريد تحسين Next.js للصور
+    remotePatterns: [
+      {
+        protocol: "https", // البروتوكول العام
+        hostname: "copo-production.up.railway.app", // رابط المشروع العام على Railway
+        pathname: "/images/products/**", // مسار الصور في مشروعك
+      },
+    ],
+  },
 
-    reactStrictMode: true,
+  // إعادة كتابة الروابط (اختياري لتسهيل fetch من API)
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*", // أي طلب يبدأ بـ /api/
+        destination: "https://copo-production.up.railway.app/api/:path*", // يمرر للـ Railway API
+      },
+    ];
+  },
 };
 
 export default nextConfig;
