@@ -16,14 +16,14 @@ const nextConfig: NextConfig = {
   },
 
   // إعادة كتابة الروابط (اختياري لتسهيل fetch من API)
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*", // أي طلب يبدأ بـ /api/
-        destination: "https://copo-production.up.railway.app/api/:path*", // يمرر للـ Railway API
-      },
-    ];
-  },
+async rewrites() {
+  return [
+    {
+      source: "/api/:path*",
+      destination: "https://copo-production.up.railway.app/:path*", // إزالة /api هنا
+    },
+  ];
+}
 };
 
 export default nextConfig;
