@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 
   // إعدادات الصور
   images: {
-    unoptimized: true, // خيار سريع إذا لم تريد تحسين Next.js للصور
+    unoptimized: true, //  سريع إذا لم تريد تحسين Next.js للصور
     remotePatterns: [
       {
         protocol: "https", // البروتوكول العام
