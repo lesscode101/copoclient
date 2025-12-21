@@ -4,12 +4,13 @@
 .our-services{
     background: linear-gradient(180deg, #fefefe, #ffffff);
     text-align: center;
-    padding: 20px 0px;
+    padding: 60px 0px;
     color: #333;
     position: relative;
     z-index: 100;
     min-height: 520px;
 }
+
 .our-services .title {
     font-size: 34px;
     font-weight: 400;

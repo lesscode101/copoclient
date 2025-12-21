@@ -95,7 +95,7 @@ export default async function PremiumPage() {
             />
 
 
-            <ListContent products={products} titleName="Discounts" />
+            <ListContent products={products} titleName="Premium Backpacks" />
 
 
 

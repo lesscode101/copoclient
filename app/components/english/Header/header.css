@@ -169,18 +169,19 @@
 .header .col-shipping  {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
 }
 .header .col-shipping a {
-    font-family: 'Open Sans',sans-serif;
+    font-family:  system-ui, serif  !important;
     display: flex;
     align-items: baseline;
     gap: 4px;
     font-size: 13px;
     line-height: 13px;
-    letter-spacing: 1px;
-    font-weight: 400;
-    color: #fff;
+    letter-spacing: 0px;
+    font-weight: 400 !important;
+    color: #f8f8f8;
 }
 
 .header .col-shipping a strong {
@@ -742,14 +743,16 @@
         display: flex !important;
         justify-content: flex-start;
         align-items: center;
-        width: 60px;
+        width: 30px;
         overflow: hidden;
         cursor: pointer;
+        transform: translateY(2px);
+        padding:2px 4px;
     }
 
     .header .menu i {
-        transform: scale(1.8);
-        opacity: 0.7;
+        transform: scale(1.6);
+        opacity: 0.8;
     }
 
     .header .menu:hover i {

@@ -64,19 +64,19 @@ function HeaderSlim() {
             </span>
 
             <div className="logo">
-              <Link href="/" className="logo-link">
+              <Link href="/en/home" className="logo-link">
                 <img width="24" alt="Logo" src="/logo.svg" />
                 <div className="strong">Eravist</div>
               </Link>
             </div>
 
             <nav className="navigation">
-              <Link href="/">Home</Link>
-              <Link href="/en/shop/arrivals">New Arrivals</Link>
-              <Link href="/#collection">Collections</Link>
-              <Link href="/en/blog">Blog</Link>
-              <Link href="/en/shop/premium">Premium</Link>
-              <Link href="/en/shop/discounts" className="discounts"><span>Discounts</span></Link>
+              <Link className="link" href="/en/home" data-discover="true">Home</Link>
+              <Link className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</Link>
+              <Link className="link" href="/en/home#collection" data-discover="true">Collections</Link>
+              <Link className="link" href="/en/blog" data-discover="true">Blog</Link>
+              <Link className="link" href="/en/shop/premium" data-discover="true">Premium</Link>
+              <Link className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</Link>
             </nav>
             <div className="controls">
               <div className="ms-none">
@@ -128,12 +128,12 @@ function HeaderSlim() {
 
         <div className="content">
           <nav className='col-links'>
-            <Link href="/">Home</Link>
-            <Link href="/en/shop/arrivals">New Arrivals</Link>
-            <Link href="/#collection">Collections</Link>
-            <Link href="/en/blog">Blog</Link>
-            <Link href="/en/shop/premium">Premium</Link>
-            <Link href="/en/shop/discount">Discounts</Link>
+            <Link className="link" href="/en/home" data-discover="true">Home</Link>
+            <Link className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</Link>
+            <Link className="link" href="/en/home#collection" data-discover="true">Collections</Link>
+            <Link className="link" href="/en/blog" data-discover="true">Blog</Link>
+            <Link className="link" href="/en/shop/premium" data-discover="true">Premium</Link>
+            <Link className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</Link>
           </nav>
         </div>
 

@@ -214,13 +214,7 @@
         padding: 1rem 0rem;
     }
 
-    .blogPage .heading .title.ar {
-        font-weight: 400 !important;
-
-        writing-mode: horizontal-tb;
-        transform: rotate(0deg);
-        padding-bottom: 2rem;
-    }
+    
 
     .blogPage .blog-items {
         grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
@@ -242,9 +236,15 @@
 
 }
 
-@media (max-width:600px) {
+@media (max-width:900px) {
 
 
+    .blogPage {
+        position: relative;
+        height: fit-content;
+        width: fit-content;
+        padding: 1.2rem 1rem;
+    }
     .blogPage .container {
         position: relative;
         display: grid;
@@ -254,12 +254,6 @@
         padding-top: 4rem !important;
     }
 
-    .blogPage {
-        position: relative;
-        height: fit-content;
-        width: fit-content;
-        padding: 1.2rem 1rem;
-    }
 
 
 
@@ -281,18 +275,24 @@
 
     .blog-items .article-content {
         width: 100%;
+        padding: 0px !important;
         padding-top: 28px;
+        
     }
 
     .blogPage .article-title {
-        font-size: 24px !important;
+        font-size: 20px !important;
+        height: 65px;
+        margin-top: 12px;
+       
     }
 
-
     .blogPage .article-subtitle {
-        font-size: 13px !important;
-        line-height: 24px !important;
-        letter-spacing: 0px !important;
+        margin-top: 10px;
+        padding: 0px 5px !important;
+       font-size: 12px;
+       height: 40px;
+       overflow: hidden;
     }
 
     .blogPage .article-card {

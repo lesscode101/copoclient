@@ -511,11 +511,15 @@ Price Range
     .shop-page .filter-left {
         display: none;
     }
-
-    .shop-page .filter-row {
+    .shop-page .heading .title {
+       
+        margin-top: -10px;
+    }
+    
+    .shop-page .heading-small .filter-row {
         display: grid;
         grid-template-columns: 1fr;
-        height: 60px;
+        height: 30px;
         margin-top: -0px;
         padding: 0 0.25rem;
     }
@@ -543,6 +547,7 @@ Price Range
         height: 100%;
         display: flex;
         flex-direction: column-reverse;
+        margin-top: -4rem;
     }
 
     .shop-page .filter-right .space {
@@ -560,10 +565,12 @@ Price Range
         width: 100%;
         background-color: #aaa1;
         border-radius: 0.5rem;
+        padding: 5px 12px;
     }
 
     .shop-page .search-box input {
         width: 100%;
+        height: 40px;
 
     }
 

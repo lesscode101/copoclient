@@ -79,7 +79,7 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                         <h2 className="title">
                             {title}
                         </h2>
-                        <Link href={link+'#top'} className="link">
+                        <Link href={link} className="link">
                             Go To Shop
                         </Link>
                     </div>
@@ -104,7 +104,7 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
 
                             <SwiperSlide>
                                 <div key={product.id} className="product-box">
-                                    <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
+                                    <Link href={`/en/product/${product.slug}/${product.slug}`}>
 
                                         <div className="image">
                                             <img src={`${API_URL + product.image}`} alt={product.name} />
@@ -113,7 +113,7 @@ const ProductList: React.FC<ProductListProps> = ({ title }) => {
                                     <div className="meta">
 
                                         <h1 className="product-name ">
-                                        <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
+                                        <Link href={`/en/product/${product.slug}/${product.slug}`}>
                                                 {product.name}
                                             </Link>
                                         </h1>

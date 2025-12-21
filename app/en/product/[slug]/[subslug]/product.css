@@ -925,7 +925,7 @@ overflow: hidden;
     width: 100% !important;
     max-width: 450px;
     margin: 0 auto;
-    margin-top: -2rem;
+    margin-top: -6rem;
     height: fit-content;
     object-fit: cover;
     position: relative;

@@ -91,7 +91,7 @@ const ListContent: React.FC<Props> = ({ products, titleName }) => {
                     <div className="main-page">
 
                         {/* Heading */}
-                        <div className="heading">
+                        <div className="heading heading-small">
                             <div className="line">
                                 <h1 className="title">{titleName}</h1>
                             </div>

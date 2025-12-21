@@ -1,14 +1,14 @@
 
-import "./hero.css";
+import "./Home.css";
 
 import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import Script from "next/script";
+import Header from "@/app/components/english/Header/Header";
+import HomeClient from "./homeClient";
+import ScrollRedirect from "@/app/ScrollRedirect";
 
-import Header from "./components/english/Header/Header";
-import ScrollRedirect from "./ScrollRedirect";
-import BrandsSection from "./components/english/Brands/Brands";
 
 const Home: NextPage = () => {
   const BASE_URL = "https://eravist.com";
@@ -156,8 +156,8 @@ const Home: NextPage = () => {
 
       </div>
 
-      <BrandsSection />
-      <ScrollRedirect />
+
+      <HomeClient/>
 
     </>
   );

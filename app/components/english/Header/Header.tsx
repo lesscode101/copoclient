@@ -33,23 +33,6 @@ function Header() {
 
 
 
-   function handleScroll(id: string): void {
-      const section = document.getElementById(id);
-      console.log(id)
-      if (id === "home" || id === 'premium' || id === 'discount') {
-         window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-         });
-         return;
-      }
-
-      if (section) {
-         section.scrollIntoView({ behavior: "smooth" });
-      }
-   }
-
-
    useEffect(() => {
       getCategories()
    }, [])
@@ -143,7 +126,7 @@ function Header() {
 
                      <div className="links">
                         {categories.map((c: any) => (
-                           <Link className="link" key={c.slug} href={"/en/category/" + c.slug + "#top"} data-discover="true">{c.name}</Link>
+                           <Link className="link" key={c.slug} href={"/en/category/" + c.slug} data-discover="true">{c.name}</Link>
                         ))}
 
                      </div>
@@ -162,18 +145,18 @@ function Header() {
                   </span>
 
                   <div className="logo">
-                     <a className="logo-link" href="/" data-discover="true">
+                     <Link className="logo-link" href="/en/home" data-discover="true">
                         {isHActive ? <img width="24" alt="" src="/logo.svg" /> : <img width="24" alt="" src="/logo-light.svg" />}
                         <div className="strong">Eravist</div>
-                     </a>
+                     </Link>
                   </div>
                   <nav className="navigation">
-                     <a className="link" href="/" data-discover="true">Home</a>
-                     <a className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</a>
-                     <a className="link" href="/#collection" onClick={() => handleScroll('collection')} data-discover="true">Collections</a>
-                     <a className="link" href="/en/blog" data-discover="true">Blog</a>
-                     <a className="link" href="/en/shop/premium" data-discover="true">Premium</a>
-                     <a className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</a>
+                     <Link className="link" href="/en/home" data-discover="true">Home</Link>
+                     <Link className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</Link>
+                     <Link className="link" href="/en/home#collection" data-discover="true">Collections</Link>
+                     <Link className="link" href="/en/blog" data-discover="true">Blog</Link>
+                     <Link className="link" href="/en/shop/premium" data-discover="true">Premium</Link>
+                     <Link className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</Link>
                   </nav>
                   <div className="controls">
                      <div className="ms-none">
@@ -228,14 +211,12 @@ function Header() {
 
 
                <nav className='col-links'  >
-                  <Link href="/" onClick={() => handleScroll('home')} className="link">Home</Link>
-
-                  <Link href="/en/shop/arrivals" className="link">New Arrivals</Link>
-                  <Link href="/#collection" className="link">Collections</Link>
-                  <Link href="/en/blog" className="link">Blog</Link>
-
-                  <Link href="/en/shop/premium" onClick={() => handleScroll('premium')} className="link">Premium</Link>
-                  <Link href="/en/shop/discount" onClick={() => handleScroll('discount')} className="discounts">Discounts</Link>
+                  <Link className="link" href="/en/home" data-discover="true">Home</Link>
+                  <Link className="link" href="/en/shop/arrivals" data-discover="true">New Arrivals</Link>
+                  <Link className="link" href="/en/home#collection" data-discover="true">Collections</Link>
+                  <Link className="link" href="/en/blog" data-discover="true">Blog</Link>
+                  <Link className="link" href="/en/shop/premium" data-discover="true">Premium</Link>
+                  <Link className="discounts" href="/en/shop/discounts" data-discover="true">Discounts</Link>
 
                </nav>
 

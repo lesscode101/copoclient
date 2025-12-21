@@ -88,7 +88,7 @@ const ProductSimilar: React.FC<ProductListProps> = ({ title }) => {
 
                     <SwiperSlide>
                         <div key={product.id} className="product-box">
-                            <Link href={`/en/product/${product.slug}/${product.slug}#top`}>
+                            <Link href={`/en/product/${product.slug}/${product.slug}`}>
 
                                 <div className="image">
                                     <img src={`${API_URL + product.image}`} alt={product.name} />

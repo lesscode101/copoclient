@@ -1,5 +1,5 @@
 // Home.tsx
-import './../Home.css'
+import './../hero.css'
 
 import type { NextPage } from 'next';
 import dynamic from "next/dynamic";
